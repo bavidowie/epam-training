@@ -4,7 +4,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 //app.use(logger('dev'));
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const multer  = require('multer');
 const upload = multer();
@@ -65,7 +65,7 @@ app.post('/signin', upload.array(), function(req, res) {
 	res.send('login error');
 });
 
-app.listen(80, (err) => {
+app.listen(5000, (err) => {
 	if (!err) {
 		console.log('server is listening on 80');
 	}
