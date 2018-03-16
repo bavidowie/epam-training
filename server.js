@@ -65,7 +65,7 @@ app.post('/signin', upload.array(), function(req, res) {
 	res.send('login error');
 });
 
-app.listen(5000, (err) => {
+app.listen(process.env.PORT || 5000, (err) => {
 	if (!err) {
 		console.log('server is listening on 80');
 	}
