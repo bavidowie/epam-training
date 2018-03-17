@@ -54,8 +54,8 @@ app.post('/signin', upload.array(), function(req, res) {
 	registered_user.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
-			console.log(found[0]);
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
+				console.log('LOGIN OK');
 				res.redirect('/account.html');
 				res.send('ok');
 			}

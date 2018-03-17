@@ -111,10 +111,7 @@ LoginForm.addEventListener('submit', function(e) {
 
 
 function validateRegisterLogin () {
-	if (RegisterLogin.value == '') {
-		displayInputError(RegisterLogin, 'Login empty');
-		return false;
-	} else if (RegisterLogin.value.length < 4) {
+	if (RegisterLogin.value.length < 4) {
 		displayInputError(RegisterLogin, 'Login too short, 4 characters minimum');
 		return false;
 	} else if (RegisterLogin.value.length > 64) {
