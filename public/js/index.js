@@ -103,7 +103,7 @@ LoginForm.addEventListener('submit', function(e) {
 	var LoginData = new FormData(LoginForm);
 	var xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function(res) {
-		console.log(res);
+		console.log(this);
 	});
 	xhr.open('POST', '/signin');
 	xhr.send(LoginData);
