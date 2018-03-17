@@ -1,10 +1,9 @@
-const path = require('path');
-//const logger = require('morgan');
-
 const express = require('express');
 const app = express();
-//app.use(logger('dev'));
+const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.cookieDecoder());
+app.use(express.session());
 
 const multer  = require('multer');
 const upload = multer();
@@ -43,20 +42,20 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 	UserNew.save(function (err, UserNew) {
 		if (err) return console.error(err);
-		res.redirect('/account.html');
+		//res.redirect('/account.html');
 		res.send('register ok');
 	});
 });
 
 app.post('/signin', upload.array(), function(req, res) {
+	concole.log(req.session);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registered_user.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				//console.log('LOGIN OK');
-				res.render('/account.html');
+				//res.render('/account.html');
 				res.send('login ok');
 			}
 		}
@@ -65,6 +64,6 @@ app.post('/signin', upload.array(), function(req, res) {
 
 app.listen(process.env.PORT || 5000, (err) => {
 	if (!err) {
-		console.log('server is listening on 80');
+		console.log('server is listening on port ', process.env.PORT || 5000);
 	}
 });
