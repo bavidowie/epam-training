@@ -57,11 +57,10 @@ app.post('/signin', upload.array(), function(req, res) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
 				//console.log('LOGIN OK');
 				res.render('/account.html');
-				res.send('ok');
+				// res.send('ok');
 			}
 		}
 	});
-	res.send('login error');
 });
 
 app.listen(process.env.PORT || 5000, (err) => {
