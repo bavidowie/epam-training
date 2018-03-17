@@ -50,7 +50,7 @@ app.post('/register', upload.array(), function(req, res) {
 });
 
 app.post('/signin', upload.array(), function(req, res) {
-	concole.log(req.session);
+	console.log(req.cookies);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registered_user.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
