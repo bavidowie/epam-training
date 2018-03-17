@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
+
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.cookieDecoder());
-app.use(express.session());
 
 const multer  = require('multer');
 const upload = multer();
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser())
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/training');
