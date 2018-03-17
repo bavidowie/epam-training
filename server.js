@@ -55,10 +55,7 @@ app.post('/signin', upload.array(), function(req, res) {
 		if (found.length > 0) {
 			console.log(found[0]);
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				res.writeHead(302, {
-				  'Location': 'account.html'
-				});
-				res.send('login ok');
+				return res.redirect('/account.html');
 			}
 		}
 	});
