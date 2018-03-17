@@ -43,7 +43,7 @@ app.post('/signin', upload.array(), function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				res.location('/account.html');
+				res.redirect(303, '/account.html');
 				res.send('login ok');
 			}
 		}
