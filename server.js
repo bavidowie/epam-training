@@ -36,7 +36,7 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 });
 app.post('/account.html', upload.array(), function(req, res) {
-	console.log(req.cookies);
+	//console.log(req.cookies);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
@@ -44,7 +44,7 @@ app.post('/account.html', upload.array(), function(req, res) {
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
 				//console.log(path.join(__dirname, 'account.html'));
-				res.redirect('account.html');
+				res.status(303).redirect('account.html');
 				//res.status(303).send();
 			}
 		} else {
