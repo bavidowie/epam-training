@@ -43,9 +43,12 @@ app.post('/account.html', upload.array(), function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				res.redirect('/account.html');
-				res.status(303).send();
+				console.log(path.join(__dirname, 'account.html'));
+				res.redirect(path.join(__dirname, 'account.html'));
+				//res.status(303).send();
 			}
+		} else {
+			res.status(503).send();
 		}
 	});
 });
