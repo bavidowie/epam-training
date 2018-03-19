@@ -44,7 +44,7 @@ app.post('/account.html', upload.array(), function(req, res) {
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
 				//console.log(path.join(__dirname, 'account.html'));
-				res.location('/public/account.html');
+				res.location('account.html');
 				res.status(303).send();
 				//res.redirect(301, 'account.html');
 				console.log(res);
