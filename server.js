@@ -32,8 +32,7 @@ app.post('/register', upload.array(), function(req, res) {
 		res.send('register ok');
 	});
 });
-app.post('/account.html', upload.array(), function(req, res) {
-	console.log(req.cookies);
+app.post('/signin', upload.array(), function(req, res) {
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
