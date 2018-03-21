@@ -37,9 +37,9 @@ app.post('/signin', upload.array(), function(req, res) {
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
-			res.sendFile(__dirname + '/public/account.html');
+			res.redirect('/account.html');
 		} else {
-			res.sendFile('/error.html');
+			res.redirect('/error.html');
 		}
 	});
 });
