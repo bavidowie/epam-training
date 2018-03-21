@@ -28,7 +28,7 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 	UserNew.save(function (err, UserNew) {
 		if (err) return console.error(err);
-		res.sendFile('account.html');
+		res.sendFile('/account.html');
 	});
 });
 app.post('/signin', upload.array(), function(req, res) {
@@ -38,11 +38,12 @@ app.post('/signin', upload.array(), function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				res.sendFile('account.html');
+				res.sendFile('/account.html');
 			}
 		}
 	});
-	res.sendFile('error.html');
+	res.sendFile('/error.html');
+	res.send();
 });
 
 
