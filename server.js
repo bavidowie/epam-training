@@ -32,7 +32,7 @@ app.post('/register', upload.array(), function(req, res) {
 		res.send('register ok');
 	});
 });
-app.get('/account.html', upload.array(), function(req, res) {
+app.post('/account.html', upload.array(), function(req, res) {
 	console.log(req.cookies);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
@@ -40,8 +40,9 @@ app.get('/account.html', upload.array(), function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				
-				res.redirect(303, 'account.html');
+				// res.redirect(303, 'account.html');
+				res.render('account.html');
+				res.send();
 			}
 		}
 	});

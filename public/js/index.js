@@ -107,7 +107,7 @@ LoginForm.addEventListener('submit', function(e) {
 		console.log(res);
 		// document.body.innerHTML = this.responseText;
 	}
-	xhr.open('GET', '/account.html');
+	xhr.open('POST', '/account.html');
 	xhr.send(LoginData);
 });
 
