@@ -7,9 +7,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 const multer  = require('multer');
 const upload = multer();
 
-var cookieParser = require('cookie-parser');
-app.use(cookieParser())
-
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/training');
 const userSchema = mongoose.Schema({
@@ -36,23 +33,18 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 });
 app.post('/account.html', upload.array(), function(req, res) {
-	//console.log(req.cookies);
+	console.log(req.cookies);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				//console.log(path.join(__dirname, 'account.html'));
-				res.location('account.html');
-				res.status('303').end();
-				//res.redirect(301, 'account.html');
-				console.log(res);
-				//res.status(303).send();
+				
+				res.redirect(303, 'account.html');
 			}
-		} else {
-			res.status(503).send();
 		}
+		res.redirect(303, 'account.html');
 	});
 });
 
