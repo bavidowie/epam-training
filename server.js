@@ -36,13 +36,12 @@ app.post('/signin', upload.array(), function(req, res) {
 	var Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
-		if (found.length > 0) {
-			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				res.sendFile('/account.html');
-			}
+		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
+			res.sendFile(__dirname + '/public/account.html');
+		} else {
+			res.sendFile('/error.html');
 		}
 	});
-	res.sendFile('/error.html');
 });
 
 
