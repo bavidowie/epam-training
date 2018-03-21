@@ -43,7 +43,6 @@ app.post('/signin', upload.array(), function(req, res) {
 		}
 	});
 	res.sendFile('/error.html');
-	res.send();
 });
 
 
