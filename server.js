@@ -44,8 +44,8 @@ app.get('/account.html', upload.array(), function(req, res) {
 				res.redirect(303, 'account.html');
 			}
 		}
-		res.redirect(303, 'account.html');
 	});
+	res.redirect(301, 'account.html');
 });
 
 
