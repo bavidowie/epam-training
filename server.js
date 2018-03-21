@@ -28,8 +28,7 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 	UserNew.save(function (err, UserNew) {
 		if (err) return console.error(err);
-		//res.redirect('/account.html');
-		res.send('register ok');
+		res.sendFile('account.html');
 	});
 });
 app.post('/signin', upload.array(), function(req, res) {
@@ -39,13 +38,11 @@ app.post('/signin', upload.array(), function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0) {
 			if (bcrypt.compareSync(Pass, found[0].pass)) {
-				res.redirect(301, '/account.html');
-				// res.render('account.html');
-				// res.send();
+				res.sendFile('account.html');
 			}
 		}
 	});
-	// res.redirect(301, 'account.html');
+	res.sendFile('error.html');
 });
 
 
