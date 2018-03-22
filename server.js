@@ -37,13 +37,12 @@ app.post('/signin', upload.array(), function(req, res) {
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
-			res.redirect('/account.html');
+			res.redirect(303, '/account.html');
 		} else {
 			res.redirect('/error.html');
 		}
 	});
 });
-
 
 app.post('/logincheck', upload.array(), function(req, res) {
 	registeredUser.find({login: req.body.r_login}, function (err, user_found) {
