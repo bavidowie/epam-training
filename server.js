@@ -20,17 +20,12 @@ var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
 
-function loginCheck (loginChecked) {
-	registeredUser.find({login: loginChecked}, function (err, user_found) {
-		if (err) return console.error(err);
-		if (user_found.length > 0) {
-			console.log('returning true');
-			return true;
-		}
-		return false;
+// function loginCheck (loginChecked) {
+	// registeredUser.find({login: loginChecked}, function (err, user_found) {
+		// if (err) return console.error(err);
 		// return (user_found.length > 0);
-	});
-}
+	// });
+// }
 function emailCheck (emailChecked) {
 	registeredUser.find({email: emailChecked}, function (err, user_found) {
 		if (err) return console.error(err);
@@ -63,14 +58,10 @@ app.post('/signin', function(req, res) {
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	let loginTaken = loginCheck(req.body.r_login);
-	if (loginTaken) {
-		console.log('sending "1"');
-		res.send('1');
-	} else {
-		console.log('sending "0"');
-		res.send('0');
-	}
+	registeredUser.find({login: loginChecked}, function (err, user_found) {
+		if (err) return console.error(err);
+		user_found.length > 0 ? res.send('1') : res.send('0');
+	});
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
 	emailCheck(req.body.r_email) ? res.send('1') : res.send('0');
