@@ -58,7 +58,7 @@ app.post('/signin', function(req, res) {
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	registeredUser.find({login: loginChecked}, function (err, user_found) {
+	registeredUser.find({login: req.body.r_login}, function (err, user_found) {
 		if (err) return console.error(err);
 		user_found.length > 0 ? res.send('1') : res.send('0');
 	});
