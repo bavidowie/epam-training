@@ -93,13 +93,11 @@ function validateRegisterLogin () {
 	if (RegisterLogin.value.length < 4) {
 		displayInputError(RegisterLogin, 'Login too short, 4 characters minimum');
 		return false;
-	} else if (RegisterLogin.value.length > 64) {
-		displayInputError(RegisterLogin, 'Login too long, 64 characters maximum');
-		return false;
-	} else if (RegisterLogin.value.match(/[^a-zA-Z0-9_]/) !== null) {
-		displayInputError(RegisterLogin, 'Login can only contain letters, numbers and underscores');
-		return false;
 	}
+	//  else if (RegisterLogin.value.match(/[^a-zA-Z0-9_]/) !== null) {
+		// displayInputError(RegisterLogin, 'Login can only contain letters, numbers and underscores');
+		// return false;
+	// }
 	var RegisterData = new FormData(RegisterForm);
 	var xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
@@ -115,10 +113,10 @@ function validateRegisterLogin () {
 	xhr.send(RegisterData);
 }
 function validateRegisterEmail () {
-	if (RegisterEmail.value.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i) === null) {
-		displayInputError(RegisterEmail, 'Email invalid');
-		return false;
-	}
+	// if (RegisterEmail.value.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i) === null) {
+		// displayInputError(RegisterEmail, 'Email invalid');
+		// return false;
+	// }
 	var RegisterData = new FormData(RegisterForm);
 	var xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
@@ -136,9 +134,6 @@ function validateRegisterEmail () {
 function validateRegisterPass () {
 	if (RegisterPass.value.length < 5) {
 		displayInputError(RegisterPass, 'Password must be at least 5 symbols long');
-		return false;
-	} else if (RegisterPass.value.length > 64) {
-		displayInputError(RegisterPass, 'Password too long, 64 characters maximum');
 		return false;
 	}
 	return true;

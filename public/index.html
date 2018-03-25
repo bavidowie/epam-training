@@ -27,19 +27,19 @@
                         <label class='r_login_label'>
                             Login<span class='req'>*</span>
                             </label>
-                        <input type='text' autocomplete='off' name='r_login' required />
+                        <input type='text' autocomplete='off' name='r_login' required maxlength='64' pattern='[A-Za-z0-9_]*' />
                     </div>
                     <div class='field-wrap'>
                         <label class='r_email_label'>
                             Email Address<span class='req'>*</span>
                             </label>
-                        <input type='text' autocomplete='off' name='r_email' required />
+                        <input type='email' autocomplete='off' name='r_email' required />
                     </div>
                     <div class='field-wrap'>
                         <label class='r_pass_label'>
                             Set a Password<span class='req'>*</span>
                             </label>
-                        <input type='password' autocomplete='off' name='r_pass' required />
+                        <input type='password' autocomplete='off' name='r_pass' maxlength='64' required />
                     </div>
                     <div class='field-wrap'>
                         <label class='r_login_re_label'>
