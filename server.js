@@ -34,6 +34,7 @@ var salt = bcrypt.genSaltSync(10);
 // }
 
 app.post('/register', function(req, res) {
+	console.log(req);
 	var UserNew = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
