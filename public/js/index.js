@@ -86,8 +86,11 @@ RegisterPassRe.addEventListener('focus', function() {
 	clearInputError(RegisterPassRe);
 });
 
-RegisterForm.addEventListener('submit', function() {
-	return false;
+RegisterForm.addEventListener('submit', function(evt) {
+	evt.preventDefault();
+	if (validateRegisterLogin() && validateRegisterEmail() && validateRegisterPass() && validateRegisterPassRe) {
+		this.submit();
+	}
 });
 
 function validateRegisterLogin () {
