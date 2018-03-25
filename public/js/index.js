@@ -85,19 +85,9 @@ RegisterPassRe.addEventListener('blur', validateRegisterPassRe);
 RegisterPassRe.addEventListener('focus', function() {
 	clearInputError(RegisterPassRe);
 });
-
-// RegisterForm.addEventListener('submit', function(e) {
-	// e.preventDefault();
-	// if (validateRegisterLogin && validateRegisterEmail && validateRegisterPass && validateRegisterPassRe) {
-		// var RegisterData = new FormData(RegisterForm);
-		// var xhr = new XMLHttpRequest();
-		// xhr.addEventListener('loadend', function(res) {
-			// console.log('Register ok');
-		// });
-		// xhr.open('POST', '/register');
-		// xhr.send(RegisterData);
-	// }
-// });
+RegisterForm.addEventListener('submit', function() {
+	if (!validateRegisterLogin&&validateRegisterEmail&&validateRegisterPass&&validateRegisterPassRe) return false;
+});
 
 function validateRegisterLogin () {
 	if (RegisterLogin.value.length < 4) {

@@ -1,14 +1,10 @@
 const express = require('express');
 const app = express();
-
 const path = require('path');
-
 const multer  = require('multer');
 const upload = multer();
-
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 const mongoose = require('mongoose');
@@ -36,7 +32,6 @@ app.post('/register', function(req, res) {
 	});
 });
 app.post('/signin', function(req, res) {
-	console.log(req.body);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
