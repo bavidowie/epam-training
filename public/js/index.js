@@ -85,15 +85,9 @@ RegisterPassRe.addEventListener('blur', validateRegisterPassRe);
 RegisterPassRe.addEventListener('focus', function() {
 	clearInputError(RegisterPassRe);
 });
-// RegisterForm.addEventListener('submit', function() {
-	// if (!validateRegisterLogin&&validateRegisterEmail&&validateRegisterPass&&validateRegisterPassRe) return false;
-// });
+
 
 function validateRegisterLogin () {
-	if (RegisterLogin.value.length < 4) {
-		displayInputError(RegisterLogin, 'Login too short, 4 characters minimum');
-		return false;
-	}
 	var RegisterData = new FormData(RegisterForm);
 	var xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
@@ -124,10 +118,6 @@ function validateRegisterEmail () {
 	xhr.send(RegisterData);
 }
 function validateRegisterPass () {
-	if (RegisterPass.value.length < 5) {
-		displayInputError(RegisterPass, 'Password must be at least 5 symbols long');
-		return false;
-	}
 	return true;
 }
 function validateRegisterPassRe () {

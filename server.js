@@ -20,6 +20,19 @@ var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
 
+function loginCheck (loginChecked) {
+	registeredUser.find({login: loginChecked}, function (err, user_found) {
+		if (err) return console.error(err);
+		user_found.length > 0 ? return true : return false;
+	});
+}
+function emailCheck (emailChecked) {
+	registeredUser.find({email: emailChecked}, function (err, user_found) {
+		if (err) return console.error(err);
+		user_found.length > 0 ? return true : return false;
+	});
+}
+
 app.post('/register', function(req, res) {
 	var UserNew = new registeredUser({
 		login: req.body.r_login,
@@ -38,23 +51,25 @@ app.post('/signin', function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
 			res.redirect(303, '/account.html');
-		} else {
+		}/* else {
 			res.redirect(303, '/error.html');
-		}
+		}*/
 	});
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	registeredUser.find({login: req.body.r_login}, function (err, user_found) {
-		if (err) return console.error(err);
-		user_found.length > 0 ? res.send('1') : res.send('0');
-	});
+	loginCheck(req.body.r_login) ? res.send('1') : res.send('0');
+	// registeredUser.find({login: req.body.r_login}, function (err, user_found) {
+		// if (err) return console.error(err);
+		// user_found.length > 0 ? res.send('1') : res.send('0');
+	// });
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
-	registeredUser.find({email: req.body.r_email}, function (err, user_found) {
-		if (err) return console.error(err);
-		user_found.length > 0 ? res.send('1') : res.send('0');
-	});
+	emailCheck(req.body.r_email) ? res.send('1') : res.send('0');
+	// registeredUser.find({email: req.body.r_email}, function (err, user_found) {
+		// if (err) return console.error(err);
+		// user_found.length > 0 ? res.send('1') : res.send('0');
+	// });
 });
 
 
