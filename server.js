@@ -51,9 +51,9 @@ app.post('/signin', function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
 			res.redirect(303, '/account.html');
-		}/* else {
-			res.redirect(303, '/error.html');
-		}*/
+		} else {
+			res.send('wrong l/pass');
+		}
 	});
 });
 
