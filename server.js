@@ -62,7 +62,12 @@ app.post('/signin', function(req, res) {
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	loginCheck(req.body.r_login) ? res.send('1') : res.send('0');
+	// loginCheck(req.body.r_login) ? res.send('1') : res.send('0');
+	if (loginCheck(req.body.r_login) === true) {
+		res.send('1');
+	} else {
+		res.send('0');
+	}
 	// registeredUser.find({login: req.body.r_login}, function (err, user_found) {
 		// if (err) return console.error(err);
 		// user_found.length > 0 ? res.send('1') : res.send('0');
