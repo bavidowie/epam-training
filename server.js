@@ -22,6 +22,7 @@ var salt = bcrypt.genSaltSync(10);
 
 function loginCheck (loginChecked) {
 	registeredUser.find({login: loginChecked}, function (err, user_found) {
+		console.log(user_found);
 		if (err) return console.error(err);
 		if (user_found.length > 0) {
 			return true;
