@@ -31,15 +31,16 @@ app.post('/register', upload.array(), function(req, res) {
 		res.sendFile(303, '/account.html');
 	});
 });
-app.post('/signin', upload.array(), function(req, res) {
+app.post('/account.html', upload.array(), function(req, res) {
+	console.log(req);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
 			// res.redirect(303, '/account.html');
-			res.type('html');
-			res.location('/account.html');
+			// res.type('html');
+			// res.location('/account.html');
 			res.status(303).end();
 		} else {
 			res.redirect(303, '/error.html');

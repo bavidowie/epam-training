@@ -99,15 +99,15 @@ RegisterForm.addEventListener('submit', function(e) {
 	}
 });
 LoginForm.addEventListener('submit', function(e) {
-	e.preventDefault();
-	var LoginData = new FormData(LoginForm);
-	var xhr = new XMLHttpRequest();
-	xhr.addEventListener('loadend', function() {
-		// window.location = xhr.responseURL;
-		console.log(xhr);
-	});
-	xhr.open('POST', '/signin');
-	xhr.send(LoginData);
+	//e.preventDefault();
+	// var LoginData = new FormData(LoginForm);
+	// var xhr = new XMLHttpRequest();
+	// xhr.addEventListener('loadend', function() {
+		// // window.location = xhr.responseURL;
+		// console.log(xhr);
+	// });
+	// xhr.open('POST', '/signin');
+	// xhr.send(LoginData);
 });
 
 
