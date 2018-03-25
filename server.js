@@ -23,7 +23,11 @@ var salt = bcrypt.genSaltSync(10);
 function loginCheck (loginChecked) {
 	registeredUser.find({login: loginChecked}, function (err, user_found) {
 		if (err) return console.error(err);
-		return (user_found.length > 0);
+		if (user_found.length > 0) {
+			return true;
+		}
+		return false;
+		// return (user_found.length > 0);
 	});
 }
 function emailCheck (emailChecked) {
