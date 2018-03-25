@@ -32,7 +32,7 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 });
 app.post('/account.html', upload.array(), function(req, res) {
-	console.log(req);
+	console.log(req.body);
 	res.redirect(303, '/account.html');
 	// res.send();
 	// var Login = req.body.l_login;
