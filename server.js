@@ -66,6 +66,7 @@ app.post('/signin', function(req, res) {
 app.post('/logincheck', upload.array(), function(req, res) {
 	// loginCheck(req.body.r_login) ? res.send('1') : res.send('0');
 	if (loginCheck(req.body.r_login) === true) {
+		console.log('sending "1"');
 		res.send('1');
 	} else {
 		res.send('0');
