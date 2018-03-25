@@ -63,25 +63,17 @@ app.post('/signin', function(req, res) {
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	// loginCheck(req.body.r_login) ? res.send('1') : res.send('0');
-	if (loginCheck(req.body.r_login) == true) {
+	let loginTaken = loginCheck(req.body.r_login);
+	if (loginTaken) {
 		console.log('sending "1"');
 		res.send('1');
 	} else {
 		console.log('sending "0"');
 		res.send('0');
 	}
-	// registeredUser.find({login: req.body.r_login}, function (err, user_found) {
-		// if (err) return console.error(err);
-		// user_found.length > 0 ? res.send('1') : res.send('0');
-	// });
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
 	emailCheck(req.body.r_email) ? res.send('1') : res.send('0');
-	// registeredUser.find({email: req.body.r_email}, function (err, user_found) {
-		// if (err) return console.error(err);
-		// user_found.length > 0 ? res.send('1') : res.send('0');
-	// });
 });
 
 
