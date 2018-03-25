@@ -85,9 +85,9 @@ RegisterPassRe.addEventListener('blur', validateRegisterPassRe);
 RegisterPassRe.addEventListener('focus', function() {
 	clearInputError(RegisterPassRe);
 });
-RegisterForm.addEventListener('submit', function() {
-	if (!validateRegisterLogin&&validateRegisterEmail&&validateRegisterPass&&validateRegisterPassRe) return false;
-});
+// RegisterForm.addEventListener('submit', function() {
+	// if (!validateRegisterLogin&&validateRegisterEmail&&validateRegisterPass&&validateRegisterPassRe) return false;
+// });
 
 function validateRegisterLogin () {
 	if (RegisterLogin.value.length < 4) {
