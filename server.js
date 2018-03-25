@@ -25,6 +25,7 @@ function loginCheck (loginChecked) {
 		console.log(user_found);
 		if (err) return console.error(err);
 		if (user_found.length > 0) {
+			console.log('returning true');
 			return true;
 		}
 		return false;
