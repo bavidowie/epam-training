@@ -98,17 +98,17 @@ RegisterForm.addEventListener('submit', function(e) {
 		xhr.send(RegisterData);
 	}
 });
-LoginForm.addEventListener('submit', function(e) {
-	//e.preventDefault();
-	// var LoginData = new FormData(LoginForm);
-	// var xhr = new XMLHttpRequest();
-	// xhr.addEventListener('loadend', function() {
-		// // window.location = xhr.responseURL;
-		// console.log(xhr);
-	// });
-	// xhr.open('POST', '/signin');
-	// xhr.send(LoginData);
-});
+// LoginForm.addEventListener('submit', function(e) {
+	// //e.preventDefault();
+	// // var LoginData = new FormData(LoginForm);
+	// // var xhr = new XMLHttpRequest();
+	// // xhr.addEventListener('loadend', function() {
+		// // // window.location = xhr.responseURL;
+		// // console.log(xhr);
+	// // });
+	// // xhr.open('POST', '/signin');
+	// // xhr.send(LoginData);
+// });
 
 
 function validateRegisterLogin () {
