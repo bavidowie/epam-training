@@ -86,30 +86,18 @@ RegisterPassRe.addEventListener('focus', function() {
 	clearInputError(RegisterPassRe);
 });
 
-RegisterForm.addEventListener('submit', function(e) {
-	e.preventDefault();
-	if (validateRegisterLogin && validateRegisterEmail && validateRegisterPass && validateRegisterPassRe) {
-		var RegisterData = new FormData(RegisterForm);
-		var xhr = new XMLHttpRequest();
-		xhr.addEventListener('loadend', function(res) {
-			console.log('Register ok');
-		});
-		xhr.open('POST', '/register');
-		xhr.send(RegisterData);
-	}
-});
-// LoginForm.addEventListener('submit', function(e) {
-	// //e.preventDefault();
-	// // var LoginData = new FormData(LoginForm);
-	// // var xhr = new XMLHttpRequest();
-	// // xhr.addEventListener('loadend', function() {
-		// // // window.location = xhr.responseURL;
-		// // console.log(xhr);
-	// // });
-	// // xhr.open('POST', '/signin');
-	// // xhr.send(LoginData);
+// RegisterForm.addEventListener('submit', function(e) {
+	// e.preventDefault();
+	// if (validateRegisterLogin && validateRegisterEmail && validateRegisterPass && validateRegisterPassRe) {
+		// var RegisterData = new FormData(RegisterForm);
+		// var xhr = new XMLHttpRequest();
+		// xhr.addEventListener('loadend', function(res) {
+			// console.log('Register ok');
+		// });
+		// xhr.open('POST', '/register');
+		// xhr.send(RegisterData);
+	// }
 // });
-
 
 function validateRegisterLogin () {
 	if (RegisterLogin.value.length < 4) {
@@ -137,10 +125,7 @@ function validateRegisterLogin () {
 	xhr.send(RegisterData);
 }
 function validateRegisterEmail () {
-	if (RegisterEmail.value == '') {
-		displayInputError(RegisterEmail, 'Email empty');
-		return false;
-	} else if (RegisterEmail.value.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i) === null) {
+	if (RegisterEmail.value.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i) === null) {
 		displayInputError(RegisterEmail, 'Email invalid');
 		return false;
 	}

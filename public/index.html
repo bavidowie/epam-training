@@ -18,9 +18,8 @@
         <div class='tab-content'>
             <div id='signup'>
                 <h1>Sign Up for a Course</h1>
-                <form class='register'>
+                <form class='register' method='post' action='/signin'>
                     <div class='field-wrap'>
-						<!-- <input type='text' class='datepicker'> -->
 						<input type='date' name='r_date' class='half-width'/>
 						<input type='time' name='r_time' class='half-width right' min='09:00' max='17:00' step='600'/>
 					</div>
@@ -53,7 +52,7 @@
             </div>
             <div id='login'>
                 <h1>Welcome Back!</h1>
-                <form class='login' method='post' action='/account.html'>
+                <form class='login' method='post' action='/signin'>
                     <div class='field-wrap'>
                         <label>
                             Login or Email Address<span class='req'>*</span>

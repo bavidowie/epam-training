@@ -35,7 +35,7 @@ app.post('/register', upload.array(), function(req, res) {
 		res.sendFile(303, '/account.html');
 	});
 });
-app.post('/account.html', upload.array(), function(req, res) {
+app.post('/signin', /*upload.array(),*/ function(req, res) {
 	console.log(req.body);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
