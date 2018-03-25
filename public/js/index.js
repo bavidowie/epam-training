@@ -86,6 +86,9 @@ RegisterPassRe.addEventListener('focus', function() {
 	clearInputError(RegisterPassRe);
 });
 
+RegisterForm.addEventListener('submit', function() {
+	return false;
+});
 
 function validateRegisterLogin () {
 	var RegisterData = new FormData(RegisterForm);
