@@ -22,7 +22,6 @@ var salt = bcrypt.genSaltSync(10);
 
 function loginCheck (loginChecked) {
 	registeredUser.find({login: loginChecked}, function (err, user_found) {
-		console.log(user_found);
 		if (err) return console.error(err);
 		if (user_found.length > 0) {
 			console.log('returning true');
@@ -65,10 +64,11 @@ app.post('/signin', function(req, res) {
 
 app.post('/logincheck', upload.array(), function(req, res) {
 	// loginCheck(req.body.r_login) ? res.send('1') : res.send('0');
-	if (loginCheck(req.body.r_login) === true) {
+	if (loginCheck(req.body.r_login) == true) {
 		console.log('sending "1"');
 		res.send('1');
 	} else {
+		console.log('sending "0"');
 		res.send('0');
 	}
 	// registeredUser.find({login: req.body.r_login}, function (err, user_found) {
