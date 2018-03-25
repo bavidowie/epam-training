@@ -24,7 +24,7 @@ var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
 
-app.post('/register', upload.array(), function(req, res) {
+app.post('/register', function(req, res) {
 	var UserNew = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
@@ -32,10 +32,10 @@ app.post('/register', upload.array(), function(req, res) {
 	});
 	UserNew.save(function (err, UserNew) {
 		if (err) return console.error(err);
-		res.sendFile(303, '/account.html');
+		res.redirect(303, '/account.html');
 	});
 });
-app.post('/signin', /*upload.array(),*/ function(req, res) {
+app.post('/signin', function(req, res) {
 	console.log(req.body);
 	var Login = req.body.l_login;
 	var Pass = req.body.l_pass;
