@@ -26,12 +26,12 @@ var salt = bcrypt.genSaltSync(10);
 		// return (user_found.length > 0);
 	// });
 // }
-function emailCheck (emailChecked) {
-	registeredUser.find({email: emailChecked}, function (err, user_found) {
-		if (err) return console.error(err);
-		return (user_found.length > 0);
-	});
-}
+// function emailCheck (emailChecked) {
+	// registeredUser.find({email: emailChecked}, function (err, user_found) {
+		// if (err) return console.error(err);
+		// return (user_found.length > 0);
+	// });
+// }
 
 app.post('/register', function(req, res) {
 	var UserNew = new registeredUser({
@@ -64,7 +64,10 @@ app.post('/logincheck', upload.array(), function(req, res) {
 	});
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
-	emailCheck(req.body.r_email) ? res.send('1') : res.send('0');
+	registeredUser.find({email: req.body.r_email}, function (err, user_found) {
+		if (err) return console.error(err);
+		user_found.length > 0 ? res.send('1') : res.send('0');
+	});
 });
 
 
