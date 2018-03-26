@@ -88,7 +88,8 @@ RegisterPassRe.addEventListener('focus', function() {
 
 RegisterForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	loginValid = new Promise(validateRegisterLogin).then(validateRegisterEmail).then(function() {
+	loginValid = new Promise(validateRegisterLogin);
+	loginValid.then(validateRegisterEmail).then(function() {
 		if (validateRegisterPass()) {
 			if (validateRegisterPassRe()) {
 				console.log(this);
