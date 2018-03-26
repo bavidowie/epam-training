@@ -88,7 +88,7 @@ RegisterPassRe.addEventListener('focus', function() {
 
 RegisterForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	validateRegisterLogin().then(validateRegisterEmail).then(function() {
+	loginValid = new Promise(validateRegisterLogin).then(validateRegisterEmail).then(function() {
 		if (validateRegisterPass()) {
 			if (validateRegisterPassRe()) {
 				console.log(this);
@@ -96,37 +96,35 @@ RegisterForm.addEventListener('submit', function(evt) {
 			}
 		}
 	});
+	// validateRegisterLogin().then(validateRegisterEmail).then(function() {
+	// });
 });
 
 function validateRegisterLogin () {
-	return new Promise(function() {
-		var RegisterData = new FormData(RegisterForm);
-		var xhr = new XMLHttpRequest();
-		xhr.addEventListener('loadend', function() {
-			if (this.responseText === '1') {
-				displayInputError(RegisterLogin, 'Login already taken');
-			} else {
-				clearInputError(RegisterLogin);
-			}
-		});
-		xhr.open('POST', '/logincheck');
-		xhr.send(RegisterData);
+	var RegisterData = new FormData(RegisterForm);
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener('loadend', function() {
+		if (this.responseText === '1') {
+			displayInputError(RegisterLogin, 'Login already taken');
+		} else {
+			clearInputError(RegisterLogin);
+		}
 	});
+	xhr.open('POST', '/logincheck');
+	xhr.send(RegisterData);
 }
 function validateRegisterEmail () {
-	return new Promise(function() {
-		var RegisterData = new FormData(RegisterForm);
-		var xhr = new XMLHttpRequest();
-		xhr.addEventListener('loadend', function() {
-			if (this.responseText === '1') {
-				displayInputError(RegisterEmail, 'Email already registered');
-			} else {
-				clearInputError(RegisterEmail);
-			}
-		});
-		xhr.open('POST', '/emailcheck');
-		xhr.send(RegisterData);
+	var RegisterData = new FormData(RegisterForm);
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener('loadend', function() {
+		if (this.responseText === '1') {
+			displayInputError(RegisterEmail, 'Email already registered');
+		} else {
+			clearInputError(RegisterEmail);
+		}
 	});
+	xhr.open('POST', '/emailcheck');
+	xhr.send(RegisterData);
 }
 function validateRegisterPass () {
 	return true;
