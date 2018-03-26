@@ -90,12 +90,9 @@ RegisterForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
 	validateRegisterLogin()
 		.then(validateRegisterEmail)
-		.then(function() {
-			if (validateRegisterPassRe()) {
-				console.log(this);
-				evt.submit();
-			}
-	});
+		.then(validateRegisterPass)
+		.then(validateRegisterPassRe)
+		.then(() => evt.submit());
 });
 
 function validateRegisterLogin () {
@@ -131,14 +128,18 @@ function validateRegisterEmail () {
 	});
 }
 function validateRegisterPass () {
-	return true;
+	return new Promise(function(resolve) {
+		resolve();
+	});
 }
 function validateRegisterPassRe () {
-	if (RegisterPass.value !== RegisterPassRe.value) {
-		displayInputError(RegisterPassRe, 'Passwords do not match');
-		return false;
-	}
-	return true;
+	return new Promise(function(resolve) {
+		if (RegisterPass.value !== RegisterPassRe.value) {
+			displayInputError(RegisterPassRe, 'Passwords do not match');
+		} else {
+			resolve();
+		}
+	})
 }
 
 
