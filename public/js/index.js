@@ -88,12 +88,12 @@ RegisterPassRe.addEventListener('focus', function() {
 
 RegisterForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	let form = this;
+	// let form = this;
 	validateRegisterLogin()
 		.then(validateRegisterEmail)
 		.then(validateRegisterPass)
 		.then(validateRegisterPassRe)
-		.then(() => form.submit());
+		.then(() => this.submit());
 });
 
 function validateRegisterLogin () {
