@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const multer  = require('multer');
 const upload = multer();
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -16,8 +16,16 @@ const userSchema = mongoose.Schema({
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
 
-var bcrypt = require('bcryptjs');
-var salt = bcrypt.genSaltSync(10);
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(10);
+
+const session = require('express-session');
+app.use(session({
+  secret: 'keybroad cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 
 function loginCheck (loginChecked) {
@@ -26,6 +34,7 @@ function loginCheck (loginChecked) {
 			if (err) return console.error(err);
 			if (user_found.length > 0){
 				refuse();
+				throw 'login taken';
 			} else {
 				resolve();
 			}
@@ -38,6 +47,7 @@ function emailCheck (emailChecked) {
 			if (err) return console.error(err);
 			if (user_found.length > 0){
 				refuse();
+				throw 'email taken';
 			} else {
 				resolve();
 			}
@@ -46,40 +56,51 @@ function emailCheck (emailChecked) {
 }
 
 app.post('/register', function(req, res) {
-	console.log(req);
-	var UserNew = new registeredUser({
+	let newUser = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
 		pass: bcrypt.hashSync(req.body.r_pass, salt)
 	});
-	UserNew.save(function (err, UserNew) {
-		if (err) return console.error(err);
-		res.redirect(303, '/account.html');
+	loginCheck(newUser.r_login)
+	.then(emailCheck(newUser.r_email))
+	.then(function() {
+		newUser.save(function (err, newUser) {
+			if (err) return console.error(err);
+			res.redirect(303, '/account.html');
+		});
+	}).catch(function(error_msg) {
+		switch (error_msg) {
+			case 'login taken':
+				res.send('login taken');
+				break;
+			case 'email taken':
+				res.send('email taken');
+				break;
+		}
 	});
 });
 app.post('/signin', function(req, res) {
-	var Login = req.body.l_login;
-	var Pass = req.body.l_pass;
+	let Login = req.body.l_login;
+	let Pass = req.body.l_pass;
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
+			// req.session.uid = found[0].
+			console.log(found);
 			res.redirect(303, '/account.html');
 		} else {
-			res.send('wrong');
+			res.redirect(303, '/error.html');
 		}
 	});
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	loginCheck(req.body.r_login).then(function() {
+	loginCheck(req.body.r_login)
+	.then(function() {
 		res.send('0');
 	}).catch(function() {
 		res.send('1');
 	});
-	// registeredUser.find({login: req.body.r_login}, function (err, user_found) {
-		// if (err) return console.error(err);
-		// user_found.length > 0 ? res.send('1') : res.send('0');
-	// });
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
 	emailCheck(req.body.r_email).then(function() {
@@ -87,10 +108,6 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	}).catch(function() {
 		res.send('1');
 	});
-	// registeredUser.find({email: req.body.r_email}, function (err, user_found) {
-		// if (err) return console.error(err);
-		// user_found.length > 0 ? res.send('1') : res.send('0');
-	// });
 });
 
 
