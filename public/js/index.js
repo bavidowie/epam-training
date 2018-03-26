@@ -92,7 +92,7 @@ RegisterForm.addEventListener('submit', function(evt) {
 		.then(validateRegisterEmail)
 		.then(validateRegisterPass)
 		.then(validateRegisterPassRe)
-		.then(() => evt.submit());
+		.then((evt) => evt.submit());
 });
 
 function validateRegisterLogin () {
