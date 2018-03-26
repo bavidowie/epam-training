@@ -88,7 +88,8 @@ RegisterPassRe.addEventListener('focus', function() {
 
 RegisterForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	if (validateRegisterLogin() && validateRegisterEmail() && validateRegisterPass() && validateRegisterPassRe) {
+	if (validateRegisterLogin() === true &&
+		validateRegisterEmail() === true && validateRegisterPass() && validateRegisterPassRe) {
 		console.log(this);
 		this.submit();
 	}
