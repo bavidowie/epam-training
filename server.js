@@ -71,7 +71,7 @@ app.post('/signin', function(req, res) {
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
-	loginCheck().then(function() {
+	loginCheck(req.body.r_login).then(function() {
 		res.send('0');
 	}).catch(function() {
 		res.send('1');
@@ -82,7 +82,7 @@ app.post('/logincheck', upload.array(), function(req, res) {
 	// });
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
-	emailCheck().then(function() {
+	emailCheck(req.body.r_email).then(function() {
 		res.send('0');
 	}).catch(function() {
 		res.send('1');
