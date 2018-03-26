@@ -20,12 +20,15 @@ const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
 app.use(session({
-  secret: 'keybroad cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
+	secret: 'keybroad cat',
+	resave: false,
+	saveUninitialized: true,
+	store: new MongoStore({ mongooseConnection: mongoose.connection, touchAfter: 24 * 3600 }),
+	cookie: { secure: true }
+}));
 
 
 function loginCheck (loginChecked) {
@@ -85,13 +88,18 @@ app.post('/signin', function(req, res) {
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
-			// req.session.uid = found[0].
+			// req.session.uid = found[0].    id
 			console.log(found);
 			res.redirect(303, '/account.html');
 		} else {
 			res.redirect(303, '/error.html');
 		}
 	});
+});
+app.get('/logout', function(req, res) {
+	// if (req.session.id ) {
+		// req.session.destroy();
+	// }
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
