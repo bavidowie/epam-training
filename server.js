@@ -61,6 +61,7 @@ function emailCheck (emailChecked) {
 app.all('/account', function(req, res) {
 	console.log('entering private area');
 	console.log(req.session);
+	console.log(req.params);
 	console.log(req.session._id);
 	res.redirect(303, '/account.html');
 	// if (req.session._id)
