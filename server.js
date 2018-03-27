@@ -58,8 +58,9 @@ function emailCheck (emailChecked) {
 	});
 }
 
-app.all('/account.html', function(req, res) {
+app.get('/account.html', function(req, res) {
 	console.log(req.session);
+	console.log(req.session._id);
 	console.log('entering private area');
 	// if (req.session._id)
 });
