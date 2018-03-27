@@ -100,6 +100,7 @@ app.post('/signin', function(req, res) {
 		if (bcrypt.compareSync(Pass, found[0].pass)) {
 			if (!req.session.uid) {
 				req.session.uid = found[0]._id;
+				req.session.save();
 			}
 			console.log(req.session);
 			res.redirect(303, '/account');
