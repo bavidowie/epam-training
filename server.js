@@ -95,9 +95,10 @@ app.post('/register', function(req, res) {
 app.post('/signin', function(req, res) {
 	let Login = req.body.l_login;
 	let Pass = req.body.l_pass;
-	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
+	registeredUser.find({$or:[{login: Login},{email: Login}]})
+	.then(function(err, found) {
 		if (err) return console.error(err);
-		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
+		if (bcrypt.compareSync(Pass, found[0].pass)) {
 			if (!req.session.uid) {
 				req.session.uid = found[0]._id;
 			}
@@ -106,6 +107,8 @@ app.post('/signin', function(req, res) {
 		} else {
 			res.redirect(303, '/error.html');
 		}
+	}).catch(function() {
+		res.redirect(303, '/error.html');
 	});
 });
 app.get('/logout', function(req, res) {
