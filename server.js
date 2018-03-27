@@ -78,6 +78,7 @@ app.post('/register', function(req, res) {
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
 			req.session.uid = newUser._id;
+			console.log(req.session);
 			res.redirect(303, '/account');
 		});
 	}).catch(function(error_msg) {
@@ -97,7 +98,10 @@ app.post('/signin', function(req, res) {
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
-			req.session.uid = found[0]._id;
+			if (!req.session.uid) {
+				req.session.uid = found[0]._id;
+			}
+			console.log(req.session);
 			res.redirect(303, '/account');
 		} else {
 			res.redirect(303, '/error.html');
