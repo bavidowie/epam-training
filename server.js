@@ -107,7 +107,6 @@ app.get('/logout', function(req, res) {
 		// req.session.destroy(function() {
 			res.redirect(303, '/');
 		// });
-	}
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
