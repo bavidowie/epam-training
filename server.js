@@ -58,6 +58,11 @@ function emailCheck (emailChecked) {
 	});
 }
 
+app.all('/account.html', function(req, res) {
+	console.log(req.session);
+	// if (req.session._id)
+});
+
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
@@ -88,17 +93,18 @@ app.post('/signin', function(req, res) {
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
-			// req.session.uid = found[0].    id
-			console.log(found);
+			req.session.uid = found[0]._id;
 			res.redirect(303, '/account.html');
 		} else {
 			res.redirect(303, '/error.html');
 		}
 	});
 });
-app.get('/logout', function(req, res) {
+app.get('logout', function(req, res) {
 	// if (req.session.id ) {
-		// req.session.destroy();
+		// req.session.destroy(function() {
+			res.redirect(303, '/');
+		// });
 	// }
 });
 
