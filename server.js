@@ -58,10 +58,11 @@ function emailCheck (emailChecked) {
 	});
 }
 
-app.get('/account.html', function(req, res) {
+app.all('/account', function(req, res) {
 	console.log(req.session);
 	console.log(req.session._id);
 	console.log('entering private area');
+	res.redirect(303, '/account.html');
 	// if (req.session._id)
 });
 
@@ -77,7 +78,7 @@ app.post('/register', function(req, res) {
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
 			req.session.uid = newUser._id;
-			res.redirect(303, '/account.html');
+			res.redirect(303, '/account');
 		});
 	}).catch(function(error_msg) {
 		switch (error_msg) {
@@ -97,7 +98,7 @@ app.post('/signin', function(req, res) {
 		if (err) return console.error(err);
 		if (found.length > 0 && bcrypt.compareSync(Pass, found[0].pass)) {
 			req.session.uid = found[0]._id;
-			res.redirect(303, '/account.html');
+			res.redirect(303, '/account');
 		} else {
 			res.redirect(303, '/error.html');
 		}
