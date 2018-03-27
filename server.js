@@ -59,9 +59,9 @@ function emailCheck (emailChecked) {
 }
 
 app.all('/account', function(req, res) {
+	console.log('entering private area');
 	console.log(req.session);
 	console.log(req.session._id);
-	console.log('entering private area');
 	res.redirect(303, '/account.html');
 	// if (req.session._id)
 });
@@ -95,8 +95,7 @@ app.post('/register', function(req, res) {
 app.post('/signin', function(req, res) {
 	let Login = req.body.l_login;
 	let Pass = req.body.l_pass;
-	registeredUser.find({$or:[{login: Login},{email: Login}]})
-	.then(function(err, found) {
+	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (bcrypt.compareSync(Pass, found[0].pass)) {
 			if (!req.session.uid) {
@@ -107,8 +106,6 @@ app.post('/signin', function(req, res) {
 		} else {
 			res.redirect(303, '/error.html');
 		}
-	}).catch(function() {
-		res.redirect(303, '/error.html');
 	});
 });
 app.get('/logout', function(req, res) {
