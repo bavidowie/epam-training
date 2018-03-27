@@ -78,7 +78,8 @@ app.post('/register', function(req, res) {
 	.then(function() {
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
-			req.session.uid = newUser._id;
+			req.session.userID = newUser._id;
+			req.session.save();
 			console.log(req.session);
 			res.redirect(303, '/account');
 		});
