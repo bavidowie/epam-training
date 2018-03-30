@@ -17,8 +17,8 @@ const registeredUser = mongoose.model('registered_user', userSchema);
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
-const bodyParser = require('body-parser');
 const session = require("express-session"),
+const bodyParser = require('body-parser');
 app.use(session({ 
 	secret: "cats" }));
 app.use(bodyParser.urlencoded({ extended: false }));
