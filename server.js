@@ -1,11 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 const multer  = require('multer');
 const upload = multer();
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/training');
@@ -15,15 +13,17 @@ const userSchema = mongoose.Schema({
 	pass: String
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
-// const courseSchema = mongoose.Schema({
-	// userID: String,
-	// date: String
-// });
 
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
+const bodyParser = require('body-parser');
+const session = require("express-session"),
+app.use(session({ secret: "cats" }));
+app.use(bodyParser.urlencoded({ extended: false }));
 const passport = require('passport')
+app.use(passport.initialize());
+app.use(passport.session());
 const localStrategy = require('passport-local').Strategy;
 passport.use(new localStrategy(
 	function(username, password, done) {
@@ -40,32 +40,12 @@ passport.use(new localStrategy(
 	}
 ));
 
-function loginCheck (loginChecked) {
-	return new Promise(function(resolve, refuse) {
-		registeredUser.findOne({login: loginChecked}, function (err, user) {
-			if (err) return console.error(err);
-			if (!user){
-				resolve();
-			} else {
-				refuse();
-				throw 'login taken';
-			}
-		});
-	});
-}
-function emailCheck (emailChecked) {
-	return new Promise(function(resolve, refuse) {
-		registeredUser.findOne({email: emailChecked}, function (err, user) {
-			if (err) return console.error(err);
-			if (!user){
-				resolve();
-			} else {
-				refuse();
-				throw 'email taken';
-			}
-		});
-	});
-}
+app.post('/signin',
+  passport.authenticate('local', { successRedirect: '/account.html',
+                                   failureRedirect: '/',
+                                   failureFlash: true })
+);
+
 
 app.all('/account', function(req, res) {
 	console.log('entering private area');
@@ -97,10 +77,6 @@ app.post('/register', function(req, res) {
 		}
 	});
 });
-app.post('/signin',
-  passport.authenticate('local', { successRedirect: '/account.html',
-                                   failureRedirect: '/' })
-);
 // app.post('/signin', function(req, res) {
 	// let Login = req.body.l_login;
 	// let Pass = req.body.l_pass;
@@ -118,6 +94,33 @@ app.get('/logout', function(req, res) {
 	res.redirect(303, '/');
 });
 
+
+function loginCheck (loginChecked) {
+	return new Promise(function(resolve, refuse) {
+		registeredUser.findOne({login: loginChecked}, function (err, user) {
+			if (err) return console.error(err);
+			if (!user){
+				resolve();
+			} else {
+				refuse();
+				throw 'login taken';
+			}
+		});
+	});
+}
+function emailCheck (emailChecked) {
+	return new Promise(function(resolve, refuse) {
+		registeredUser.findOne({email: emailChecked}, function (err, user) {
+			if (err) return console.error(err);
+			if (!user){
+				resolve();
+			} else {
+				refuse();
+				throw 'email taken';
+			}
+		});
+	});
+}
 app.post('/logincheck', upload.array(), function(req, res) {
 	loginCheck(req.body.r_login)
 	.then(function() {
