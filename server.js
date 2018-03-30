@@ -19,7 +19,8 @@ const salt = bcrypt.genSaltSync(10);
 
 const bodyParser = require('body-parser');
 const session = require("express-session"),
-app.use(session({ secret: "cats" }));
+app.use(session({ 
+	secret: "cats" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 const passport = require('passport')
 app.use(passport.initialize());
