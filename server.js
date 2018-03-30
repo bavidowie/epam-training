@@ -50,8 +50,7 @@ passport.use(new localStrategy(
 
 app.post('/signin',
   passport.authenticate('local', { successRedirect: '/account.html',
-                                   failureRedirect: '/',
-                                   failureFlash: true })
+                                   failureRedirect: '/' })
 );
 
 
