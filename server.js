@@ -1,10 +1,13 @@
+// APP CONFIG
 const express = require('express');
 const app = express();
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 const multer  = require('multer');
 const upload = multer();
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+// DB CONFIG
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/training');
 const userSchema = mongoose.Schema({
@@ -13,14 +16,16 @@ const userSchema = mongoose.Schema({
 	pass: String
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
-
+// CRYPTOGRAPHY
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
-
+// AUTHORIZATION CONFIG
 const session = require('express-session');
-app.use(session({ secret: 'cats', resave: false }));
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+const MongoStore = require('connect-mongo')(session);
+app.use(session({ 
+	secret: 'cats',
+	resave: false,
+	store: new MongoStore( mongooseConnection: mongoose.connection ) }));
 const passport = require('passport')
 app.use(passport.initialize());
 app.use(passport.session());
@@ -48,18 +53,8 @@ passport.use(new localStrategy(
 	}
 ));
 
-app.post('/signin',
-  passport.authenticate('local', { successRedirect: '/account.html',
-                                   failureRedirect: '/' })
-);
-
-
-app.all('/account', function(req, res) {
-	console.log('entering private area');
-	
-	res.redirect(303, '/account.html');
-});
-
+//APP ROUTES
+app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
@@ -84,24 +79,11 @@ app.post('/register', function(req, res) {
 		}
 	});
 });
-// app.post('/signin', function(req, res) {
-	// let Login = req.body.l_login;
-	// let Pass = req.body.l_pass;
-	// registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
-		// if (err) return console.error(err);
-		// if (bcrypt.compareSync(Pass, found[0].pass)) {
-			
-			// res.redirect(303, '/account');
-		// } else {
-			// res.redirect(303, '/error.html');
-		// }
-	// });
-// });
 app.get('/logout', function(req, res) {
 	res.redirect(303, '/');
 });
 
-
+//SERVICE FUNCTIONS
 function loginCheck (loginChecked) {
 	return new Promise(function(resolve, refuse) {
 		registeredUser.findOne({login: loginChecked}, function (err, user) {
@@ -128,6 +110,8 @@ function emailCheck (emailChecked) {
 		});
 	});
 }
+
+//SERVICE ROUTES
 app.post('/logincheck', upload.array(), function(req, res) {
 	loginCheck(req.body.r_login)
 	.then(function() {
@@ -145,7 +129,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	});
 });
 
-
+//APP START
 app.listen(process.env.PORT || 5000, (err) => {
 	if (!err) {
 		console.log('server is listening on port ', process.env.PORT || 5000);
