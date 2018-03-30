@@ -15,20 +15,13 @@ const userSchema = mongoose.Schema({
 	pass: String
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
+// const courseSchema = mongoose.Schema({
+	// userID: String,
+	// date: String
+// });
 
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
-
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-
-app.use(session({
-	secret: 'keybroad cat',
-	resave: false,
-	saveUninitialized: true,
-	store: new MongoStore({ mongooseConnection: mongoose.connection, touchAfter: 24 * 3600 }),
-	cookie: { secure: true }
-}));
 
 
 function loginCheck (loginChecked) {
@@ -60,11 +53,8 @@ function emailCheck (emailChecked) {
 
 app.all('/account', function(req, res) {
 	console.log('entering private area');
-	console.log(req.session);
-	console.log(req.params);
-	console.log(req.session._id);
+	
 	res.redirect(303, '/account.html');
-	// if (req.session._id)
 });
 
 app.post('/register', function(req, res) {
@@ -78,9 +68,6 @@ app.post('/register', function(req, res) {
 	.then(function() {
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
-			req.session.userID = newUser._id;
-			req.session.save();
-			console.log(req.session);
 			res.redirect(303, '/account');
 		});
 	}).catch(function(error_msg) {
@@ -100,11 +87,7 @@ app.post('/signin', function(req, res) {
 	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
 		if (err) return console.error(err);
 		if (bcrypt.compareSync(Pass, found[0].pass)) {
-			if (!req.session.uid) {
-				req.session.uid = found[0]._id;
-				req.session.save();
-			}
-			console.log(req.session);
+			
 			res.redirect(303, '/account');
 		} else {
 			res.redirect(303, '/error.html');
@@ -112,10 +95,7 @@ app.post('/signin', function(req, res) {
 	});
 });
 app.get('/logout', function(req, res) {
-	// if (req.session.id ) {
-		// req.session.destroy(function() {
-			res.redirect(303, '/');
-		// });
+	res.redirect(303, '/');
 });
 
 app.post('/logincheck', upload.array(), function(req, res) {
@@ -127,7 +107,8 @@ app.post('/logincheck', upload.array(), function(req, res) {
 	});
 });
 app.post('/emailcheck', upload.array(), function(req, res) {
-	emailCheck(req.body.r_email).then(function() {
+	emailCheck(req.body.r_email)
+	.then(function() {
 		res.send('0');
 	}).catch(function() {
 		res.send('1');
