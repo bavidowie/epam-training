@@ -25,7 +25,7 @@ const MongoStore = require('connect-mongo')(session);
 app.use(session({ 
 	secret: 'cats',
 	resave: false,
-	store: new MongoStore( mongooseConnection: mongoose.connection ) }));
+	store: new MongoStore({mongooseConnection: mongoose.connection}) }));
 const passport = require('passport')
 app.use(passport.initialize());
 app.use(passport.session());
