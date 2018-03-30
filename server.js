@@ -23,29 +23,45 @@ const registeredUser = mongoose.model('registered_user', userSchema);
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
+const passport = require('passport')
+const localStrategy = require('passport-local').Strategy;
+passport.use(new localStrategy(
+	function(username, password, done) {
+		registeredUser.findOne({ login: username }, function(err, user) {
+			if (err) { return done(err); }
+			if (!user) {
+				return done(null, false, { message: 'Incorrect username.' });
+			}
+			if (!bcrypt.compareSync(password, user.pass)) {
+				return done(null, false, { message: 'Incorrect password.' });
+			}
+			return done(null, user);
+		});
+	}
+));
 
 function loginCheck (loginChecked) {
 	return new Promise(function(resolve, refuse) {
-		registeredUser.find({login: loginChecked}, function (err, user_found) {
+		registeredUser.findOne({login: loginChecked}, function (err, user) {
 			if (err) return console.error(err);
-			if (user_found.length > 0){
+			if (!user){
+				resolve();
+			} else {
 				refuse();
 				throw 'login taken';
-			} else {
-				resolve();
 			}
 		});
 	});
 }
 function emailCheck (emailChecked) {
 	return new Promise(function(resolve, refuse) {
-		registeredUser.find({email: emailChecked}, function (err, user_found) {
+		registeredUser.findOne({email: emailChecked}, function (err, user) {
 			if (err) return console.error(err);
-			if (user_found.length > 0){
+			if (!user){
+				resolve();
+			} else {
 				refuse();
 				throw 'email taken';
-			} else {
-				resolve();
 			}
 		});
 	});
@@ -81,19 +97,23 @@ app.post('/register', function(req, res) {
 		}
 	});
 });
-app.post('/signin', function(req, res) {
-	let Login = req.body.l_login;
-	let Pass = req.body.l_pass;
-	registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
-		if (err) return console.error(err);
-		if (bcrypt.compareSync(Pass, found[0].pass)) {
+app.post('/signin',
+  passport.authenticate('local', { successRedirect: '/account.html',
+                                   failureRedirect: '/' })
+);
+// app.post('/signin', function(req, res) {
+	// let Login = req.body.l_login;
+	// let Pass = req.body.l_pass;
+	// registeredUser.find({$or:[{login: Login},{email: Login}]}, function(err, found) {
+		// if (err) return console.error(err);
+		// if (bcrypt.compareSync(Pass, found[0].pass)) {
 			
-			res.redirect(303, '/account');
-		} else {
-			res.redirect(303, '/error.html');
-		}
-	});
-});
+			// res.redirect(303, '/account');
+		// } else {
+			// res.redirect(303, '/error.html');
+		// }
+	// });
+// });
 app.get('/logout', function(req, res) {
 	res.redirect(303, '/');
 });
