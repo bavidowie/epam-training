@@ -31,32 +31,31 @@ const passport = require('passport')
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+	done(null, user.id);
 });
 passport.deserializeUser(function(id, done) {
-  registeredUser.findById(id, function(err, user) {
-    done(err, user);
-  });
+	registeredUser.findById(id, function(err, user) {
+		done(err, user);
+	});
 });
 const localStrategy = require('passport-local').Strategy;
-passport.use(new localStrategy(
-	function(username, password, done) {
-		registeredUser.findOne({ login: username }, function(err, user) {
-			if (err) { return done(err); }
-			if (!user) {
-				return done(null, false, { message: 'Incorrect username.' });
-			}
-			if (!bcrypt.compareSync(password, user.pass)) {
-				return done(null, false, { message: 'Incorrect password.' });
-			}
-			return done(null, user);
-		});
-	}
-));
+passport.use(new localStrategy(function(username, password, done) {
+	registeredUser.findOne({ login: username }, function(err, user) {
+		if (err) { return done(err); }
+		if (!user) {
+			return done(null, false, { message: 'Incorrect username.' });
+		}
+		if (!bcrypt.compareSync(password, user.pass)) {
+			return done(null, false, { message: 'Incorrect password.' });
+		}
+		return done(null, user);
+	});
+}));
 
 //APP ROUTES
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
-app.post('/account.html', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
+
+
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
@@ -68,7 +67,11 @@ app.post('/register', function(req, res) {
 	.then(function() {
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
-			res.redirect(303, '/account');
+			req.login(newUser._id, function(err) {
+				if (err) { return next(err); }
+				return res.redirect('/account');
+			});
+			//res.redirect(303, '/account');
 		});
 	}).catch(function(error_msg) {
 		switch (error_msg) {
@@ -82,6 +85,7 @@ app.post('/register', function(req, res) {
 	});
 });
 app.get('/logout', function(req, res) {
+	req.logout();
 	res.redirect(303, '/');
 });
 
