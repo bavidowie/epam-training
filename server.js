@@ -54,10 +54,10 @@ passport.use(new localStrategy(function(username, password, done) {
 
 //APP ROUTES
 // app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
-app.post('/signin', passport.authenticate('local', function(req, res) {
+app.post('/signin', passport.authenticate('local'), function(req, res) {
 	console.log(req.user);
-	res.end();
-}));
+	res.redirect('/account');
+});
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
@@ -71,7 +71,7 @@ app.post('/register', function(req, res) {
 			if (err) return console.error(err);
 			req.login(newUser._id, function(err) {
 				if (err) { return next(err); }
-				return res.redirect('/account');
+				res.redirect('/account');
 			});
 			//res.redirect(303, '/account');
 		});
