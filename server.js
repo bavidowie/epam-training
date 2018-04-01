@@ -32,7 +32,7 @@ const passport = require('passport')
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
-	done(null, user.id);
+	done(null, user._id);
 });
 passport.deserializeUser(function(id, done) {
 	registeredUser.findById(id, function(err, user) {
@@ -62,10 +62,10 @@ app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
-		pass: bcrypt.hashSync(req.body.r_pass, salt)//,
-		// courses: [{
-			// date: req.body.r_date,
-			// time: req.body.r_time }]
+		pass: bcrypt.hashSync(req.body.r_pass, salt),
+		courses: [{
+			date: req.body.r_date,
+			time: req.body.r_time }]
 	});
 	loginCheck(newUser.login)
 	.then(emailCheck(newUser.email))
