@@ -53,28 +53,17 @@ passport.use(new localStrategy(function(username, password, done) {
 	});
 }));
 
-// APP ROUTES
-app.all('/', function(req, res) {
-	console.log('get /');
+
+app.use(function() {
 	if (req.user) {
-		console.log(req);
+		console.log(req.user);
 		res.redirect(303, '/account.html');
 	} else {
 		console.log('no req.user!!!!!!!');
-		res.send();
+		res.redirect(303, '/');
 	}
 });
-app.all('/account.html', function(req, res) {
-	console.log('get account.html');
-	if (req.user) {
-		console.log(req);
-		res.send(req.user);
-	} else {
-		console.log('no req.user!!!!!!!');
-		res.redirect(403, '/');
-	}
-});
-
+// APP ROUTES
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
