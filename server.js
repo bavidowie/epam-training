@@ -68,6 +68,7 @@ app.get('/', function(req, res) {
 		console.log(req.user);
 		res.redirect(303, '/account.html');
 	} else {
+		console.log('no req.user!!!!!!!');
 		res.send();
 	}
 });
@@ -76,6 +77,7 @@ app.get('/account.html', function(req, res) {
 		console.log(req.user);
 		res.send(req.user);
 	} else {
+		console.log('no req.user!!!!!!!');
 		res.redirect(403, '/');
 	}
 });
