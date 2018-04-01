@@ -39,6 +39,15 @@ passport.deserializeUser(function(id, done) {
 		done(err, user);
 	});
 });
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 const localStrategy = require('passport-local').Strategy;
 passport.use(new localStrategy(function(username, password, done) {
 	registeredUser.findOne({ login: username }, function(err, user) {
@@ -73,7 +82,7 @@ app.post('/register', function(req, res) {
 		console.log('newUser', newUser);
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
-			req.login(newUser._id, function(err) {
+			req.login(newUser, function(err) {
 				if (err) return console.error(err);
 				res.redirect(303, '/account.html');
 			});
