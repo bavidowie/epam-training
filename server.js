@@ -13,8 +13,8 @@ mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/trainin
 const userSchema = mongoose.Schema({
 	login: String,
 	email: String,
-	pass: String,
-	courses: []
+	pass: String//,
+	//courses: []
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
 // CRYPTOGRAPHY
