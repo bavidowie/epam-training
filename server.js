@@ -65,7 +65,7 @@ passport.use(new localStrategy(function(username, password, done) {
 // APP ROUTES
 app.get('/', function(req, res) {
 	if (req.user) {
-		console.log(req.user);
+		console.log(req);
 		res.redirect(303, '/account.html');
 	} else {
 		console.log('no req.user!!!!!!!');
@@ -74,7 +74,7 @@ app.get('/', function(req, res) {
 });
 app.get('/account.html', function(req, res) {
 	if (req.user) {
-		console.log(req.user);
+		console.log(req);
 		res.send(req.user);
 	} else {
 		console.log('no req.user!!!!!!!');
