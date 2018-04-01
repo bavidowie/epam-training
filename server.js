@@ -71,10 +71,10 @@ app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
-		pass: bcrypt.hashSync(req.body.r_pass, salt)//,
-		// courses: [{
-			// date: req.body.r_date,
-			// time: req.body.r_time }]
+		pass: bcrypt.hashSync(req.body.r_pass, salt),
+		courses: [{
+			date: req.body.r_date,
+			time: req.body.r_time }]
 	});
 	loginCheck(newUser.login)
 	.then(emailCheck(newUser.email))
