@@ -2,7 +2,6 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-app.use(express.static(path.join(__dirname, 'public')));
 const multer  = require('multer');
 const upload = multer();
 const bodyParser = require('body-parser');
@@ -63,6 +62,7 @@ app.use(function(req, res) {
 		res.redirect(303, '/');
 	}
 });
+app.use(express.static(path.join(__dirname, 'public')));
 // APP ROUTES
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
