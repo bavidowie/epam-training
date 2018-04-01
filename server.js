@@ -70,6 +70,7 @@ app.post('/register', function(req, res) {
 	loginCheck(newUser.r_login)
 	.then(emailCheck(newUser.r_email))
 	.then(function() {
+		console.log(newUser);
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
 			req.login(newUser._id, function(err) {
