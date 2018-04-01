@@ -57,7 +57,8 @@ app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect(303, '/');
 	} else {
-		console.log(req.user);
+		res.json({ courses: req.user.courses,
+					name: req.user.login });
 		next();
 	}
 });
