@@ -53,11 +53,13 @@ passport.use(new localStrategy(function(username, password, done) {
 }));
 
 
-app.use(function(req, res) {
+app.use(function(req, res, next) {
 	if (!req.user) {
 		console.log('no req.user!!!!!!!');
-		res.redirect(303, '/index.html');
+	} else {
+		console.log(req.user);
 	}
+	next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
 // APP ROUTES
