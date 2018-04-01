@@ -13,7 +13,8 @@ mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/trainin
 const userSchema = mongoose.Schema({
 	login: String,
 	email: String,
-	pass: String
+	pass: String,
+	sessions: []
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
 // CRYPTOGRAPHY
@@ -52,17 +53,19 @@ passport.use(new localStrategy(function(username, password, done) {
 	});
 }));
 
-//APP ROUTES
-// app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
-app.post('/signin', passport.authenticate('local'), function(req, res) {
-	console.log(req.user);
-	res.redirect('/account');
-});
+// APP ROUTES
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Account, Authentificate
+app.post('/', passport.authenticate('local', {successRedirect: '/account.html'}));
+app.post('/account.html', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
+
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
-		pass: bcrypt.hashSync(req.body.r_pass, salt)
+		pass: bcrypt.hashSync(req.body.r_pass, salt),
+		courses: [{
+			date: req.body.r_date,
+			time: req.body.r_time }]
 	});
 	loginCheck(newUser.r_login)
 	.then(emailCheck(newUser.r_email))
@@ -71,17 +74,16 @@ app.post('/register', function(req, res) {
 			if (err) return console.error(err);
 			req.login(newUser._id, function(err) {
 				if (err) { return next(err); }
-				res.redirect('/account');
+				res.redirect(303, '/account.html');
 			});
-			//res.redirect(303, '/account');
 		});
 	}).catch(function(error_msg) {
 		switch (error_msg) {
 			case 'login taken':
-				res.send('login taken');
+				res.redirect(303, '/');
 				break;
 			case 'email taken':
-				res.send('email taken');
+				res.send(303, '/');
 				break;
 		}
 	});
@@ -90,6 +92,8 @@ app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect(303, '/');
 });
+
+app.get('/',)
 
 //SERVICE FUNCTIONS
 function loginCheck (loginChecked) {
