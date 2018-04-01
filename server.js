@@ -73,6 +73,7 @@ app.get('/', function(req, res) {
 	}
 });
 app.get('/account.html', function(req, res) {
+	console.log('get account.html');
 	if (req.user) {
 		console.log(req);
 		res.send(req.user);
