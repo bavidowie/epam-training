@@ -67,8 +67,8 @@ app.post('/register', function(req, res) {
 			date: req.body.r_date,
 			time: req.body.r_time }]
 	});
-	loginCheck(newUser.r_login)
-	.then(emailCheck(newUser.r_email))
+	loginCheck(newUser.login)
+	.then(emailCheck(newUser.email))
 	.then(function() {
 		console.log(newUser);
 		newUser.save(function (err, newUser) {
