@@ -55,8 +55,8 @@ passport.use(new localStrategy(function(username, password, done) {
 
 // APP ROUTES
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Account, Authentificate
-app.post('/', passport.authenticate('local', {successRedirect: '/account.html'}));
-app.post('/account.html', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
+app.all('/', passport.authenticate('local', {successRedirect: '/account.html'}));
+app.all('/account.html', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
