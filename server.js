@@ -59,7 +59,7 @@ app.use(function(req, res) {
 		res.redirect(303, '/account.html');
 	} else {
 		console.log('no req.user!!!!!!!');
-		res.redirect(303, '/');
+		res.redirect(303, '/index.html');
 	}
 });
 app.use(express.static(path.join(__dirname, 'public')));
