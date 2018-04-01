@@ -63,10 +63,24 @@ passport.use(new localStrategy(function(username, password, done) {
 }));
 
 // APP ROUTES
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Account, Authentificate
-app.get('/', passport.authenticate('local', {successRedirect: '/account.html'}));
-app.all('/account.html', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
+app.get('/', function(req, res) {
+	if (req.user) {
+		console.log(req.user);
+		res.redirect(303, '/account.html');
+	} else {
+		res.send();
+	}
+});
+app.get('/account.html', function(req, res) {
+	if (req.user) {
+		console.log(req.user);
+		res.send(req.user);
+	} else {
+		res.redirect(403, '/');
+	}
+});
 
+app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
