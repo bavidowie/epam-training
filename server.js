@@ -31,14 +31,14 @@ app.use(session({
 const passport = require('passport')
 app.use(passport.initialize());
 app.use(passport.session());
-// passport.serializeUser(function(user, done) {
-	// done(null, user.id);
-// });
-// passport.deserializeUser(function(id, done) {
-	// registeredUser.findById(id, function(err, user) {
-		// done(err, user);
-	// });
-// });
+passport.serializeUser(function(user, done) {
+	done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+	registeredUser.findById(id, function(err, user) {
+		done(err, user);
+	});
+});
 const localStrategy = require('passport-local').Strategy;
 passport.use(new localStrategy(function(username, password, done) {
 	registeredUser.findOne({ login: username }, function(err, user) {
