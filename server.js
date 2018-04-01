@@ -94,7 +94,6 @@ app.get('/logout', function(req, res) {
 	res.redirect(303, '/');
 });
 
-app.get('/',)
 
 //SERVICE FUNCTIONS
 function loginCheck (loginChecked) {
