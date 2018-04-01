@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
 	login: String,
 	email: String,
 	pass: String,
-	sessions: []
+	courses: []
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
 // CRYPTOGRAPHY
