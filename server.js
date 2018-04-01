@@ -13,8 +13,8 @@ mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/trainin
 const userSchema = mongoose.Schema({
 	login: String,
 	email: String,
-	pass: String//,
-	//courses: []
+	pass: String,
+	courses: []
 });
 const registeredUser = mongoose.model('registered_user', userSchema);
 // CRYPTOGRAPHY
@@ -62,10 +62,10 @@ app.post('/register', function(req, res) {
 	let newUser = new registeredUser({
 		login: req.body.r_login,
 		email: req.body.r_email,
-		pass: bcrypt.hashSync(req.body.r_pass, salt)//,
-		//courses: [{
-			// date: req.body.r_date,
-			// time: req.body.r_time }]
+		pass: bcrypt.hashSync(req.body.r_pass, salt),
+		courses: [{
+			date: req.body.r_date,
+			time: req.body.r_time }]
 	});
 	loginCheck(newUser.login)
 	.then(emailCheck(newUser.email))
@@ -74,7 +74,7 @@ app.post('/register', function(req, res) {
 		newUser.save(function (err, newUser) {
 			if (err) return console.error(err);
 			req.login(newUser._id, function(err) {
-				if (err) { return next(err); }
+				if (err) return console.error(err);
 				res.redirect(303, '/account.html');
 			});
 		});
