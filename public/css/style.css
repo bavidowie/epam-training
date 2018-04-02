@@ -198,5 +198,5 @@ input.invalid {
 
 .clearfix {
 	overflow: auto;
-	padding: auto;
+	border: 2px solid white;
 }
