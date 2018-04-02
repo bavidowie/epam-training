@@ -4,13 +4,16 @@ var xhr = new XMLHttpRequest();
 xhr.addEventListener('loadend', function() {
 	courses = JSON.parse(this.responseText);
 	courses.map(function(val, i) {
+		let courseDateTime = Date.parse(`${val.date}T${val.time}:00.000Z`);
 		let courseDiv = document.createElement('div');
-		let courseDetails = document.createTextNode(val);
-		let cancelCourseBtn = document.createElement('input');
-		cancelCourseBtn.setAttribute('type', 'button');
-		cancelCourseBtn.addEventListener('click', () => alert(val));
+		let courseDetails = document.createTextNode(`${val.date}, ${val.time}`);
 		courseDiv.appendChild(courseDetails);
-		courseDiv.appendChild(cancelCourseBtn);
+		if (courseDateTime > Date.now()) {
+			let cancelCourseBtn = document.createElement('input');
+			cancelCourseBtn.setAttribute('type', 'button');
+			cancelCourseBtn.addEventListener('click', () => alert(i));
+			courseDiv.appendChild(cancelCourseBtn);
+		}
 		coursesTable.appendChild(courseDiv);
 	});
 });
