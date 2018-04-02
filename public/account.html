@@ -31,20 +31,6 @@
 		<h2><a href='/logout'>Sign out</h2>
 	</div>
 
-	<script>
-
-	const coursesTable = document.getElementsByClassName('courses')[0];
-
-	var xhr = new XMLHttpRequest();
-	xhr.addEventListener('loadend', function() {
-		coursesTable.innerHTML = this.responsetext;
-	});
-	xhr.open('GET', '/courses');
-	xhr.send();
-
-
-	debugger; 
-
-	</script>
+	<script src='js/account.js'></script>
 </body>
 </html>
