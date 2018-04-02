@@ -2,11 +2,10 @@ const coursesTable = document.getElementsByClassName('courses')[0];
 
 var xhr = new XMLHttpRequest();
 xhr.addEventListener('loadend', function() {
-	// coursesTable.innerHTML = this.response;
+	coursesTable.innerHTML = JSON.parse(this.responseText);
 	console.log(this);
+	debugger;
 });
 xhr.open('GET', '/courses');
 xhr.send();
 
-
-debugger;
