@@ -15,6 +15,7 @@ xhr.addEventListener('loadend', function() {
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');
 			cancelCourseBtn.setAttribute('type', 'button');
+			cancelCourseBtn.setAttribute('value', 'Cancel course');
 			cancelCourseBtn.classList.add('cancelCourse');
 			cancelCourseBtn.addEventListener('click', () => alert(i));
 			courseDiv.appendChild(cancelCourseBtn);
