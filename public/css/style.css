@@ -189,6 +189,7 @@ input.invalid {
 .courseDetails {
 	display: inline-block;
 	color: white;
+	vertical-align: middle;
 }
 .cancelCourse {
 	background: #179b77;
