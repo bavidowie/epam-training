@@ -147,6 +147,7 @@ app.get('/courses', function(req, res) {
 	res.send(req.user.courses.map(function(val, i ,arr) {
 		console.log(val);
 		arr[i] = JSON.stringify(val);
+		console.log(arr[i]);
 	}).join());
 });
 
