@@ -11,6 +11,7 @@ xhr.addEventListener('loadend', function() {
 		cancelCourseBtn.addEventListener('click', () => alert(val));
 		courseDiv.appendChild(courseDetails);
 		courseDiv.appendChild(cancelCourseBtn);
+		coursesTable.appendChild(courseDiv);
 	});
 });
 xhr.open('GET', '/courses');
