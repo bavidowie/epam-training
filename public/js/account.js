@@ -49,10 +49,12 @@ tomorrow = yyyy + '-' + mm + '-' + dd;
 CourseDate.min = tomorrow;
 CourseDate.value = tomorrow;
 CourseTime.value = '09:00';
-RegisterForm.addEventListener('submit', function(evt) {
+CourseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
 	let xhr = new XMLHttpRequest();
-	xhr.addEventListener('loadend', function() {});
+	xhr.addEventListener('loadend', function() {
+		console.log(this);
+	});
 	xhr.open('POST', '/courses');
 	xhr.send();
 });
