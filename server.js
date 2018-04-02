@@ -144,8 +144,10 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	});
 });
 app.get('/courses', function(req, res) {
-	console.log('type: ', typeof req.user.courses);
-	res.send(JSON.stringify(req.user.courses));
+	res.send(req.user.courses.map(
+	function(val, i ,arr) {
+		arr[i] = JSON.stringify(val);
+	}).join(''));
 });
 
 //APP START
