@@ -184,3 +184,8 @@ input.invalid {
 	display: inline-block;
 	
 }
+
+.cancelCourse {
+	content: 'Cancel course';
+	background: #179b77;
+}
