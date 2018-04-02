@@ -6,7 +6,8 @@ xhr.addEventListener('loadend', function() {
 	courses.map(function(val, i) {
 		let courseDiv = document.createElement('div');
 		let courseDetails = document.createTextNode(val);
-		let cancelCourseBtn = document.createElement('input').setAttribute('type', 'button');
+		let cancelCourseBtn = document.createElement('input');
+		cancelCourseBtn.setAttribute('type', 'button');
 		cancelCourseBtn.addEventListener('click', () => alert(val));
 		courseDiv.appendChild(courseDetails)
 				 .appendChild(cancelCourseBtn);
