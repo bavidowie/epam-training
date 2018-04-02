@@ -145,7 +145,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 });
 app.get('/courses', function(req, res) {
 	res.send(req.user.courses.map(function(val, i ,arr) {
-		console.log();
+		console.log(val);
 		arr[i] = JSON.stringify(val);
 	}).join());
 });
