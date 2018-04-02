@@ -4,10 +4,10 @@ const pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
 
 var xhr = new XMLHttpRequest();
 xhr.addEventListener('loadend', function() {
-	courses = JSON.parse(this.responseText);
-	let username = courses.pop();
+	response = JSON.parse(this.responseText);
+	let username = response.pop();
 	greetings.innerHTML += `${username}!`;
-	courses.map(function(val, i) {
+	response.map(function(val, i) {
 		let courseDateTime = Date.parse(`${val.date}T${val.time}:00.000Z`);
 		let courseDiv = document.createElement('div');
 		let courseDetails = document.createTextNode(`${val.date}, ${val.time}`);

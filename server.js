@@ -144,7 +144,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	});
 });
 app.get('/courses', function(req, res) {
-	let response = req.user.courses.push(req.user.login);
+	let response = req.user.courses.concat(req.user.login);
 	res.send(JSON.stringify(response));
 });
 
