@@ -189,7 +189,6 @@ input.invalid {
 .courseDetails {
 	display: inline-block;
 	color: white;
-	margin: auto;
 }
 .cancelCourse {
 	background: #179b77;
@@ -199,4 +198,5 @@ input.invalid {
 
 .clearfix {
 	overflow: auto;
+	padding: auto;
 }
