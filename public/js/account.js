@@ -1,4 +1,5 @@
-const coursesTable = document.getElementsByClassName('courses')[0];
+const futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
+const pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
 
 var xhr = new XMLHttpRequest();
 xhr.addEventListener('loadend', function() {
@@ -13,8 +14,8 @@ xhr.addEventListener('loadend', function() {
 			cancelCourseBtn.setAttribute('type', 'button');
 			cancelCourseBtn.addEventListener('click', () => alert(i));
 			courseDiv.appendChild(cancelCourseBtn);
+			coursesTable.appendChild(courseDiv);
 		}
-		coursesTable.appendChild(courseDiv);
 	});
 });
 xhr.open('GET', '/courses');
