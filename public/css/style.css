@@ -190,6 +190,7 @@ input.invalid {
 	display: inline-block;
 	color: white;
 	vertical-align: middle;
+	height: 100%;
 }
 .cancelCourse {
 	background: #179b77;
