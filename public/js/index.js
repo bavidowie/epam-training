@@ -41,22 +41,22 @@ $('.tab a').on('click', function(e) {
 });
 
 
-var RegisterForm = document.getElementsByClassName('register')[0];
-var RegisterDate = document.getElementsByName('r_date')[0];
-var RegisterTime = document.getElementsByName('r_time')[0];
-var RegisterLogin = document.getElementsByName('r_login')[0];
-var RegisterEmail = document.getElementsByName('r_email')[0];
-var RegisterPass = document.getElementsByName('r_pass')[0];
-var RegisterPassRe = document.getElementsByName('r_pass_re')[0];
-var LoginForm = document.getElementsByClassName('login')[0];
-var LoginLogin = document.getElementsByName('l_login')[0];
-var LoginPass = document.getElementsByName('l_pass')[0];
+let RegisterForm = document.getElementsByClassName('register')[0];
+let RegisterDate = document.getElementsByName('r_date')[0];
+let RegisterTime = document.getElementsByName('r_time')[0];
+let RegisterLogin = document.getElementsByName('r_login')[0];
+let RegisterEmail = document.getElementsByName('r_email')[0];
+let RegisterPass = document.getElementsByName('r_pass')[0];
+let RegisterPassRe = document.getElementsByName('r_pass_re')[0];
+let LoginForm = document.getElementsByClassName('login')[0];
+let LoginLogin = document.getElementsByName('l_login')[0];
+let LoginPass = document.getElementsByName('l_pass')[0];
 
-var tomorrow = new Date();
+let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
-var dd = tomorrow.getDate();
-var mm = tomorrow.getMonth()+1; //January is 0!
-var yyyy = tomorrow.getFullYear();
+let dd = tomorrow.getDate();
+let mm = tomorrow.getMonth()+1; //January is 0!
+let yyyy = tomorrow.getFullYear();
 if(dd<10) {
     dd = '0'+dd
 }
@@ -97,8 +97,8 @@ RegisterForm.addEventListener('submit', function(evt) {
 
 function validateRegisterLogin () {
 	return new Promise(function(resolve) {
-		var RegisterData = new FormData(RegisterForm);
-		var xhr = new XMLHttpRequest();
+		let RegisterData = new FormData(RegisterForm);
+		let xhr = new XMLHttpRequest();
 		xhr.addEventListener('loadend', function() {
 			if (this.responseText === '1') {
 				displayInputError(RegisterLogin, 'Login already taken');
@@ -113,8 +113,8 @@ function validateRegisterLogin () {
 }
 function validateRegisterEmail () {
 	return new Promise(function(resolve) {
-		var RegisterData = new FormData(RegisterForm);
-		var xhr = new XMLHttpRequest();
+		let RegisterData = new FormData(RegisterForm);
+		let xhr = new XMLHttpRequest();
 		xhr.addEventListener('loadend', function() {
 			if (this.responseText === '1') {
 				displayInputError(RegisterEmail, 'Email already registered');
@@ -145,14 +145,14 @@ function validateRegisterPassRe () {
 
 function displayInputError (InputField, ErrorText) {
 	clearInputError(RegisterLogin);
-	var ErrorBlock = document.createElement('div');
+	let ErrorBlock = document.createElement('div');
 	ErrorBlock.classList.add('errormsg');
-	var ErrorTextNode = document.createTextNode(ErrorText);
+	let ErrorTextNode = document.createTextNode(ErrorText);
 	ErrorBlock.appendChild(ErrorTextNode);
 	InputField.parentNode.appendChild(ErrorBlock);
 }
 function clearInputError (InputField) {
-	var LastSibling = InputField.parentNode.children[InputField.parentNode.children.length-1];
+	let LastSibling = InputField.parentNode.children[InputField.parentNode.children.length-1];
 	if (LastSibling.classList.contains('errormsg')) {
 		LastSibling.remove();
 	}

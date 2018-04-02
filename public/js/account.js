@@ -1,8 +1,8 @@
-const greetings = document.getElementsByClassName('greetings')[0];
-const futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
-const pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
+let greetings = document.getElementsByClassName('greetings')[0];
+let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
+let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
 
-var xhr = new XMLHttpRequest();
+let xhr = new XMLHttpRequest();
 xhr.addEventListener('loadend', function() {
 	response = JSON.parse(this.responseText);
 	let username = response.pop();
@@ -31,3 +31,28 @@ xhr.addEventListener('loadend', function() {
 xhr.open('GET', '/courses');
 xhr.send();
 
+let CourseDate = document.getElementsByName('date')[0];
+let CourseTime = document.getElementsByName('time')[0];
+let CourseForm = document.getElementsByClassName('newCourse')[0];
+let tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+let dd = tomorrow.getDate();
+let mm = tomorrow.getMonth()+1; //January is 0!
+let yyyy = tomorrow.getFullYear();
+if(dd<10) {
+    dd = '0'+dd
+}
+if(mm<10) {
+    mm = '0'+mm
+} 
+tomorrow = yyyy + '-' + mm + '-' + dd;
+CourseDate.min = tomorrow;
+CourseDate.value = tomorrow;
+CourseTime.value = '09:00';
+RegisterForm.addEventListener('submit', function(evt) {
+	evt.preventDefault();
+	let xhr = new XMLHttpRequest();
+	xhr.addEventListener('loadend', function() {});
+	xhr.open('POST', '/courses');
+	xhr.send();
+});
