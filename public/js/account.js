@@ -10,6 +10,7 @@ xhr.addEventListener('loadend', function() {
 	response.map(function(val, i) {
 		let courseDateTime = Date.parse(`${val.date}T${val.time}:00.000Z`);
 		let courseDiv = document.createElement('div');
+		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
 		courseDetails.classList.add('courseDetails');
 		courseDetails.innerHTML = `${val.date}, ${val.time}`;

@@ -185,12 +185,17 @@ input.invalid {
 	
 }
 
+
 .courseDetails {
 	display: inline-block;
 	color: white;
 }
 .cancelCourse {
 	background: #179b77;
-	display: inline-block;
+	float: right;
 	max-width: 50%;
+}
+
+.clearfix {
+	overflow: auto;
 }
