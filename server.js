@@ -145,6 +145,9 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 		res.send('1');
 	});
 });
+app.get('/courses', function(req, res) {
+	res.send(req.user.courses);
+});
 
 //APP START
 app.listen(process.env.PORT || 5000, (err) => {

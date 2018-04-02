@@ -18,6 +18,7 @@
 	<div class='tab-content'>
 		<h2 class='greetings'>Hello!</h2>
 		<h2>Courses you are signed up to</h2>
+		<div class='courses'></div>
 		<h2>Sign Up for a Course</h2>
 		<form class='register' method='post' action='/course'>
 			<div class='field-wrap'>
@@ -29,9 +30,21 @@
 		</form>
 		<h2><a href='/logout'>Sign out</h2>
 	</div>
-<script> 
-var SesVar = '<%= Session("MySessionVariable").ToString() %>';
-debugger; 
-</script>
+
+	<script>
+
+	const coursesTable = document.getElementByclassName('courses');
+
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener('loadend', function() {
+		coursesTable.innerHTML = this.responsetext;
+	});
+	xhr.open('GET', '/courses');
+	xhr.send();
+
+
+	debugger; 
+
+	</script>
 </body>
 </html>
