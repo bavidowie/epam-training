@@ -50,7 +50,7 @@ CourseDate.min = tomorrow;
 CourseDate.value = tomorrow;
 CourseTime.value = '09:00';
 CourseForm.addEventListener('submit', function(evt) {
-	evt.preventDefault();
+	//evt.preventDefault();
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
 		console.log(this);

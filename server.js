@@ -51,8 +51,6 @@ passport.use(new localStrategy(function(username, password, done) {
 		return done(null, user);
 	});
 }));
-
-
 app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect('/');
@@ -149,7 +147,8 @@ app.get('/courses', function(req, res) {
 	res.send(JSON.stringify(response));
 });
 app.post('/courses', function(req, res) {
-	console.log(req.body);
+	// console.log(req.body);
+	req.user.courses.push({date: req.body.date, time: req.body.time});
 	res.send(JSON.stringify(req.user.courses));
 });
 
