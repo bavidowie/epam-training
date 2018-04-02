@@ -149,7 +149,9 @@ app.get('/courses', function(req, res) {
 app.post('/courses', function(req, res) {
 	// console.log(req.body);
 	req.user.courses.push({date: req.body.date, time: req.body.time});
-	res.send(JSON.stringify(req.user.courses));
+	registeredUser.update({_id: req.user.id}, {courses: req.user.courses}, function() {
+		res.send(JSON.stringify(req.user.courses));
+	});
 });
 
 //APP START
