@@ -144,11 +144,12 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	});
 });
 app.get('/courses', function(req, res) {
-	res.send(req.user.courses.map(function(val, i ,arr) {
+	let responseString = req.user.courses.map(function(val, i ,arr) {
 		console.log(val);
-		arr[i] = val.toString();
-		console.log(arr[i]);
-	}).join());
+		arr[i] = JSON.stringify(val);
+	}).join();
+	console.log(responseString);
+	res.send(responseString);
 });
 
 //APP START
