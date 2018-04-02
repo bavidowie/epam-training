@@ -56,10 +56,8 @@ passport.use(new localStrategy(function(username, password, done) {
 app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect(303, '/');
-	} else {
-		console.log(req.user);
-		next();
 	}
+	next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
 // APP ROUTES
@@ -146,6 +144,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	});
 });
 app.get('/courses', function(req, res) {
+	console.log(req.user.courses);
 	res.send(JSON.stringify(req.user.courses));
 });
 
