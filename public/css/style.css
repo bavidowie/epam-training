@@ -185,6 +185,9 @@ input.invalid {
 	
 }
 
+.courseDetails {
+	display: inline-block;
+}
 .cancelCourse {
 	background: #179b77;
 	float: right;

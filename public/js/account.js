@@ -10,7 +10,9 @@ xhr.addEventListener('loadend', function() {
 	response.map(function(val, i) {
 		let courseDateTime = Date.parse(`${val.date}T${val.time}:00.000Z`);
 		let courseDiv = document.createElement('div');
-		let courseDetails = document.createTextNode(`${val.date}, ${val.time}`);
+		let courseDetails = document.createElement('div');
+		courseDetails.classList.add('courseDetails');
+		courseDetails.innerHTML = `${val.date}, ${val.time}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');

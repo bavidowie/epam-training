@@ -55,7 +55,7 @@ passport.use(new localStrategy(function(username, password, done) {
 
 app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
-		res.redirect(303, '/');
+		res.redirect('/');
 	}
 	next();
 });
