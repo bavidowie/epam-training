@@ -9,8 +9,8 @@ xhr.addEventListener('loadend', function() {
 		let cancelCourseBtn = document.createElement('input');
 		cancelCourseBtn.setAttribute('type', 'button');
 		cancelCourseBtn.addEventListener('click', () => alert(val));
-		courseDiv.appendChild(courseDetails)
-				 .appendChild(cancelCourseBtn);
+		courseDiv.appendChild(courseDetails);
+		courseDiv.appendChild(cancelCourseBtn);
 	});
 });
 xhr.open('GET', '/courses');
