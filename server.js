@@ -20,10 +20,15 @@ const userSchema = mongoose.Schema({
 	pass: String
 });
 function getCourses(userID){
-	courseModel.find({user: userID}, function(err, courses) {
-		if (err) return console.error(err);
-		console.log(courses);
-		return courses;
+	return new Promise(function(resolve, refuse) {
+		userModel.find({user: userID}, function (err, courses) {
+			if (err) return console.error(err);
+			if (courses){
+				resolve(courses);
+			} else {
+				refuse();
+			}
+		});
 	});
 }
 const userModel = mongoose.model('registered_user', userSchema);
@@ -159,13 +164,13 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 
 
 app.get('/courses', function(req, res) {
-	let response = getCourses(req.user._id);
-	console.log(response);
-	if (response.length > 0)
-		response = response.concat(req.user.login);
-	else
-		response = [req.user.login];
-	res.send(JSON.stringify(response));
+	getCourses(req.user._id)
+	.then(function(courses){
+		res.send(JSON.stringify(courses.push(req.user.name)));
+	}).catch(function(){
+		res.send(JSON.stringify([req.user.name]));
+	})
+	
 });
 app.post('/courses', function(req, res) {
 	console.log(req.body);
