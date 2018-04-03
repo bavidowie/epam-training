@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
 	pass: String
 });
 function getCourses(userID){
-	courseSchema.find({user: userID}, function(err, courses) {
+	courseModel.find({user: userID}, function(err, courses) {
 		if (err) return console.error(err);
 		return courses;
 	});
