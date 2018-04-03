@@ -9,17 +9,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // DB CONFIG
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/training');
-const userSchema = mongoose.Schema({
-	login: String,
-	email: String,
-	pass: String
-});
-const userModel = mongoose.model('registered_user', userSchema);
 const courseSchema = mongoose.Schema({
 	user: String,
 	date: Date
 });
 const courseModel = mongoose.model('course', courseSchema);
+const userSchema = mongoose.Schema({
+	login: String,
+	email: String,
+	pass: String
+});
+function getCourses(userID){
+	courseSchema.find({user: userID}, function(err, courses) {
+		if (err) return console.error(err);
+		return courses;
+	});
+}
+const userModel = mongoose.model('registered_user', userSchema);
 // CRYPTOGRAPHY
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
@@ -97,7 +103,6 @@ app.post('/register', function(req, res) {
 				break;
 		}
 	});
-	res.end();
 });
 app.get('/logout', function(req, res) {
 	req.logout();
@@ -151,10 +156,14 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 	});
 });
 
+
 app.get('/courses', function(req, res) {
-	// let response = req.user.courses.concat(req.user.login);
-	// res.send(JSON.stringify(response));
-	res.end();
+	let response = getCourses(req.user._id);
+	if (courses.length > 0)
+		response = response.concat(req.user.login);
+	else
+		response = [req.user.login];
+	res.send(JSON.stringify(response));
 });
 app.post('/courses', function(req, res) {
 	console.log(req.body);
