@@ -66,35 +66,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
 	console.log(req.body);
-	// let newUser = new userModel({
-		// login: req.body.r_login,
-		// email: req.body.r_email,
-		// pass: bcrypt.hashSync(req.body.r_pass, salt)
-	// });
-	// loginCheck(newUser.login)
-	// .then(emailCheck(newUser.email))
-	// .then(function() {
-		// newUser.save(function (err, newUser) {
-			// if (err) return console.error(err);
-			// req.login(newUser, function(err) {
-				// if (err) return console.error(err);
-				// res.redirect(303, '/account.html');
-			// });
-			// // let newCourse = new courseModel({
-				// // user: newUser._id,
-				// // date: new Date('2011-04-11T10:20:30Z');
-			// // });
-		// });
-	// }).catch(function(error_msg) {
-		// switch (error_msg) {
-			// case 'login taken':
-				// res.redirect(303, '/');
-				// break;
-			// case 'email taken':
-				// res.send(303, '/');
-				// break;
-		// }
-	// });
+	let newUser = new userModel({
+		login: req.body.r_login,
+		email: req.body.r_email,
+		pass: bcrypt.hashSync(req.body.r_pass, salt)
+	});
+	loginCheck(newUser.login)
+	.then(emailCheck(newUser.email))
+	.then(function() {
+		newUser.save(function (err, newUser) {
+			if (err) return console.error(err);
+			req.login(newUser, function(err) {
+				if (err) return console.error(err);
+				let newCourse = new courseModel({
+					user: newUser._id,
+					date: new Date(`${req.body.r_date}T${req.body.r_time}:00Z`);
+				});
+				newCourse.save(function (err, newCourse) {
+					res.redirect(303, '/account.html');
+				});
+			});
+		});
+	}).catch(function(error_msg) {
+		switch (error_msg) {
+			case 'login taken':
+				res.redirect(303, '/');
+				break;
+			case 'email taken':
+				res.send(303, '/');
+				break;
+		}
+	});
 	res.end();
 });
 app.get('/logout', function(req, res) {

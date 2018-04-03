@@ -66,7 +66,6 @@ if(mm<10) {
 tomorrow = yyyy + '-' + mm + '-' + dd;
 RegisterDate.min = tomorrow;
 RegisterDate.value = tomorrow;
-
 RegisterTime.value = '09:00';
 
 RegisterLogin.addEventListener('blur', validateRegisterLogin);
