@@ -22,6 +22,7 @@ const userSchema = mongoose.Schema({
 function getCourses(userID){
 	courseModel.find({user: userID}, function(err, courses) {
 		if (err) return console.error(err);
+		console.log(courses);
 		return courses;
 	});
 }
@@ -159,6 +160,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 
 app.get('/courses', function(req, res) {
 	let response = getCourses(req.user._id);
+	console.log(response);
 	if (response.length > 0)
 		response = response.concat(req.user.login);
 	else
