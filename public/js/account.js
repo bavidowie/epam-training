@@ -14,8 +14,20 @@ xhr.addEventListener('loadend', function() {
 		let courseDetails = document.createElement('div');
 		courseDetails.classList.add('courseDetails');
 		// dateToShow = courseDateTime.toLocaleString();
-		dateToShow = `${courseDateTime.getDate()}.${courseDateTime.getMonth()} ${courseDateTime.getHours()}:${courseDateTime.getMinutes()}`;
-		courseDetails.innerHTML = `${dateToShow}`;
+		// dateToShow = `${courseDateTime.getDate()}.${courseDateTime.getMonth()} ${courseDateTime.getHours()}:${courseDateTime.getMinutes()}`;
+		let dateToShow = courseDateTime.getDate();
+		if (dateToShow < 10)
+			dateToShow = '0' + dateToShow;
+		let monthToShow = courseDateTime.getMonth();
+		if (monthToShow < 10)
+			monthToShow = '0' + monthToShow;
+		let hourToShow = courseDateTime.getHours();
+		if (hourToShow < 10)
+			hourToShow = '0' + hourToShow;
+		let minutesToShow = courseDateTime.getMinutes();
+		if (minutesToShow < 10)
+			minutesToShow = '0' + minutesToShow;
+		courseDetails.innerHTML = `${dateToShow}.${monthToShow} ${hourToShow}:${minutesToShow}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');
