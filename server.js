@@ -22,8 +22,8 @@ const userSchema = mongoose.Schema({
 const userModel = mongoose.model('registered_user', userSchema);
 function getCourses(userID){
 	return new Promise(function(resolve, refuse) {
-		userModel.find({user: userID}, function (err, courses) {
-			console.log('DB', courses);
+		courseModel.find({user: userID}, function (err, courses) {
+			// console.log('DB', courses);
 			if (err) return console.error(err);
 			if (courses){
 				resolve(courses);
@@ -166,7 +166,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 app.get('/courses', function(req, res) {
 	getCourses(req.user._id)
 	.then(function(courses){
-		console.log(courses);
+		// console.log(courses);
 		courses.push(req.user.name)
 		res.send(JSON.stringify(courses));
 	}).catch(function(){
