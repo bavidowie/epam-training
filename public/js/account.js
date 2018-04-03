@@ -14,7 +14,7 @@ xhr.addEventListener('loadend', function() {
 		let courseDetails = document.createElement('div');
 		courseDetails.classList.add('courseDetails');
 		// dateToShow = courseDateTime.toLocaleString();
-		dateToShow = `${courseDateTime.getDate}.${courseDateTime.getMonth} ${courseDateTime.getHours}:${courseDateTime.getMinutes}`;
+		dateToShow = `${courseDateTime.getDate()}.${courseDateTime.getMonth()} ${courseDateTime.getHours()}:${courseDateTime.getMinutes()}`;
 		courseDetails.innerHTML = `${dateToShow}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
