@@ -19,9 +19,11 @@ const userSchema = mongoose.Schema({
 	email: String,
 	pass: String
 });
+const userModel = mongoose.model('registered_user', userSchema);
 function getCourses(userID){
 	return new Promise(function(resolve, refuse) {
 		userModel.find({user: userID}, function (err, courses) {
+			console.log('DB', courses);
 			if (err) return console.error(err);
 			if (courses){
 				resolve(courses);
@@ -31,7 +33,6 @@ function getCourses(userID){
 		});
 	});
 }
-const userModel = mongoose.model('registered_user', userSchema);
 // CRYPTOGRAPHY
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
@@ -77,7 +78,6 @@ app.use('/account.html', function(req, res, next) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
-	console.log(req.body);
 	let newUser = new userModel({
 		login: req.body.r_login,
 		email: req.body.r_email,
