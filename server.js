@@ -12,10 +12,14 @@ mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/trainin
 const userSchema = mongoose.Schema({
 	login: String,
 	email: String,
-	pass: String,
-	courses: []
+	pass: String
 });
-const registeredUser = mongoose.model('registered_user', userSchema);
+const userModel = mongoose.model('registered_user', userSchema);
+const courseSchema = mongoose.Schema({
+	user: String,
+	date: Date
+});
+const courseModel = mongoose.model('course', courseSchema);
 // CRYPTOGRAPHY
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
@@ -34,13 +38,13 @@ passport.serializeUser(function(user, done) {
 	done(null, user._id);
 });
 passport.deserializeUser(function(id, done) {
-	registeredUser.findById(id, function(err, user) {
+	userModel.findById(id, function(err, user) {
 		done(err, user);
 	});
 });
 const localStrategy = require('passport-local').Strategy;
 passport.use(new localStrategy(function(username, password, done) {
-	registeredUser.findOne({ login: username }, function(err, user) {
+	userModel.findOne({ login: username }, function(err, user) {
 		if (err) { return done(err); }
 		if (!user) {
 			return done(null, false, { message: 'Incorrect username.' });
@@ -57,38 +61,41 @@ app.use('/account.html', function(req, res, next) {
 	}
 	next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
 // APP ROUTES
+app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
-	let newUser = new registeredUser({
-		login: req.body.r_login,
-		email: req.body.r_email,
-		pass: bcrypt.hashSync(req.body.r_pass, salt),
-		courses: [{
-			date: req.body.r_date,
-			time: req.body.r_time }]
-	});
-	loginCheck(newUser.login)
-	.then(emailCheck(newUser.email))
-	.then(function() {
-		newUser.save(function (err, newUser) {
-			if (err) return console.error(err);
-			req.login(newUser, function(err) {
-				if (err) return console.error(err);
-				res.redirect(303, '/account.html');
-			});
-		});
-	}).catch(function(error_msg) {
-		switch (error_msg) {
-			case 'login taken':
-				res.redirect(303, '/');
-				break;
-			case 'email taken':
-				res.send(303, '/');
-				break;
-		}
-	});
+	console.log(req.body);
+	// let newUser = new userModel({
+		// login: req.body.r_login,
+		// email: req.body.r_email,
+		// pass: bcrypt.hashSync(req.body.r_pass, salt)
+	// });
+	// loginCheck(newUser.login)
+	// .then(emailCheck(newUser.email))
+	// .then(function() {
+		// newUser.save(function (err, newUser) {
+			// if (err) return console.error(err);
+			// req.login(newUser, function(err) {
+				// if (err) return console.error(err);
+				// res.redirect(303, '/account.html');
+			// });
+			// // let newCourse = new courseModel({
+				// // user: newUser._id,
+				// // date: new Date('2011-04-11T10:20:30Z');
+			// // });
+		// });
+	// }).catch(function(error_msg) {
+		// switch (error_msg) {
+			// case 'login taken':
+				// res.redirect(303, '/');
+				// break;
+			// case 'email taken':
+				// res.send(303, '/');
+				// break;
+		// }
+	// });
+	res.end();
 });
 app.get('/logout', function(req, res) {
 	req.logout();
@@ -99,7 +106,7 @@ app.get('/logout', function(req, res) {
 //SERVICE FUNCTIONS
 function loginCheck (loginChecked) {
 	return new Promise(function(resolve, refuse) {
-		registeredUser.findOne({login: loginChecked}, function (err, user) {
+		userModel.findOne({login: loginChecked}, function (err, user) {
 			if (err) return console.error(err);
 			if (!user){
 				resolve();
@@ -112,7 +119,7 @@ function loginCheck (loginChecked) {
 }
 function emailCheck (emailChecked) {
 	return new Promise(function(resolve, refuse) {
-		registeredUser.findOne({email: emailChecked}, function (err, user) {
+		userModel.findOne({email: emailChecked}, function (err, user) {
 			if (err) return console.error(err);
 			if (!user){
 				resolve();
@@ -143,15 +150,19 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 });
 
 app.get('/courses', function(req, res) {
-	let response = req.user.courses.concat(req.user.login);
-	res.send(JSON.stringify(response));
+	// let response = req.user.courses.concat(req.user.login);
+	// res.send(JSON.stringify(response));
+	res.end();
 });
 app.post('/courses', function(req, res) {
-	// console.log(req.body);
-	req.user.courses.push({date: req.body.date, time: req.body.time});
-	registeredUser.update({_id: req.user.id}, {courses: req.user.courses}, function() {
-		res.send(JSON.stringify(req.user.courses));
-	});
+	console.log(req.body);
+	// req.user.courses.push({date: req.body.date, time: req.body.time});
+	// userModel.update({_id: req.user.id}, {courses: req.user.courses}, function() {
+		// res.send(JSON.stringify(req.user.courses));
+	// });
+});
+app.delete('/courses', function(req, res) {
+	
 });
 
 //APP START
