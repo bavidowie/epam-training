@@ -8,7 +8,7 @@ xhr.addEventListener('loadend', function() {
 	let username = response.pop();
 	greetings.innerHTML += `${username}!`;
 	response.map(function(val, i) {
-		let courseDateTime = Date.parse(val.date);
+		let courseDateTime = new Date(val.date);
 		let courseDiv = document.createElement('div');
 		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
