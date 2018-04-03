@@ -167,10 +167,10 @@ app.get('/courses', function(req, res) {
 	getCourses(req.user._id)
 	.then(function(courses){
 		// console.log(courses);
-		courses.push(req.user.name)
+		courses.push(req.user.login)
 		res.send(JSON.stringify(courses));
 	}).catch(function(){
-		res.send(JSON.stringify([req.user.name]));
+		res.send(JSON.stringify([req.user.login]));
 	})
 	
 });
