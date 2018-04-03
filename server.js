@@ -166,7 +166,9 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 app.get('/courses', function(req, res) {
 	getCourses(req.user._id)
 	.then(function(courses){
-		res.send(JSON.stringify(courses.push(req.user.name)));
+		console.log(courses);
+		courses.push(req.user.name)
+		res.send(JSON.stringify(courses));
 	}).catch(function(){
 		res.send(JSON.stringify([req.user.name]));
 	})
