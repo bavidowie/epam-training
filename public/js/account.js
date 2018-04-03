@@ -13,7 +13,7 @@ xhr.addEventListener('loadend', function() {
 		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
 		courseDetails.classList.add('courseDetails');
-		courseDetails.innerHTML = `${val.date}, ${val.time}`;
+		courseDetails.innerHTML = `${courseDateTime.toLocaleString("en-US")}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');
