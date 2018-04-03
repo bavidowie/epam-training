@@ -159,7 +159,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 
 app.get('/courses', function(req, res) {
 	let response = getCourses(req.user._id);
-	if (courses.length > 0)
+	if (response.length > 0)
 		response = response.concat(req.user.login);
 	else
 		response = [req.user.login];
