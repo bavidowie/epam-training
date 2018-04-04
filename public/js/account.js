@@ -8,15 +8,12 @@ xhr.addEventListener('loadend', function() {
 	let username = response.pop();
 	greetings.innerHTML += `${username}!`;
 	response.map(function(val, i) {
-		// let courseDateTime = new Date(val.date);
-		let courseDateTime = new Date(val.date);
-		courseDateTime -= courseDateTime.getTimezoneOffset();
 		let courseDiv = document.createElement('div');
 		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
+		
+		let courseDateTime = new Date(val.date);
 		courseDetails.classList.add('courseDetails');
-		// dateToShow = courseDateTime.toLocaleString();
-		// dateToShow = `${courseDateTime.getDate()}.${courseDateTime.getMonth()} ${courseDateTime.getHours()}:${courseDateTime.getMinutes()}`;
 		let dateToShow = courseDateTime.getDate();
 		if (dateToShow < 10)
 			dateToShow = '0' + dateToShow;
