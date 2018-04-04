@@ -1,5 +1,6 @@
 function createCoursesTable (coursesArr) {
-	coursesArr.map(function(val, i) {
+	coursesArr.sort((x,y) => (x.date > y.date))
+			  .map(function(val) {
 		let courseDiv = document.createElement('div');
 		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
