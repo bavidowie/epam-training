@@ -69,7 +69,10 @@ courseDate.value = tomorrow;
 courseTime.value = '09:00';
 courseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
+	// let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
+	let body = new FormData(courseForm);
+	let a = body.get('date');
+	let b = body.get('time');
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
 		response = JSON.parse(this.responseText);
