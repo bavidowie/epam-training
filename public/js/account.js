@@ -51,6 +51,7 @@ xhr.send();
 
 let courseDate = document.getElementsByName('date')[0];
 let courseTime = document.getElementsByName('time')[0];
+let addCourse = document.getElementsByName('addCourse')[0];
 let courseForm = document.getElementsByClassName('newCourse')[0];
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -67,12 +68,10 @@ tomorrow = yyyy + '-' + mm + '-' + dd;
 courseDate.min = tomorrow;
 courseDate.value = tomorrow;
 courseTime.value = '09:00';
-courseForm.addEventListener('submit', function(evt) {
-	evt.preventDefault();
+addCourse.addEventListener('click', function() {
+	// evt.preventDefault();
 	// let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
 	let body = new FormData(courseForm);
-	let a = body.get('date');
-	let b = body.get('time');
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
 		response = JSON.parse(this.responseText);
