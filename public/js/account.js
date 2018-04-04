@@ -1,13 +1,5 @@
-let greetings = document.getElementsByClassName('greetings')[0];
-let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
-let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
-
-let xhr = new XMLHttpRequest();
-xhr.addEventListener('loadend', function() {
-	response = JSON.parse(this.responseText);
-	let username = response.pop();
-	greetings.innerHTML += `${username}!`;
-	response.map(function(val, i) {
+function createCoursesTable (coursesArr) {
+	coursesArr.map(function(val, i) {
 		let courseDiv = document.createElement('div');
 		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
@@ -27,7 +19,7 @@ xhr.addEventListener('loadend', function() {
 		let minutesToShow = courseDateTime.getMinutes();
 		if (minutesToShow < 10)
 			minutesToShow = '0' + minutesToShow;
-		courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
+		courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow} ${val._id}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');
@@ -41,6 +33,18 @@ xhr.addEventListener('loadend', function() {
 			pastCoursesTable.appendChild(courseDiv);
 		}
 	});
+}
+
+let greetings = document.getElementsByClassName('greetings')[0];
+let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
+let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
+
+let xhr = new XMLHttpRequest();
+xhr.addEventListener('loadend', function() {
+	response = JSON.parse(this.responseText);
+	let username = response.pop();
+	greetings.innerHTML += `${username}!`;
+	createCoursesTable(response);
 });
 xhr.open('GET', '/courses');
 xhr.send();
@@ -64,10 +68,12 @@ CourseDate.min = tomorrow;
 CourseDate.value = tomorrow;
 CourseTime.value = '09:00';
 CourseForm.addEventListener('submit', function(evt) {
-	//evt.preventDefault();
+	evt.preventDefault();
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
-		console.log(this);
+		response = JSON.parse(this.responseText);
+		response.pop();
+		createCoursesTable(response);
 	});
 	xhr.open('POST', '/courses');
 	xhr.send();

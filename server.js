@@ -174,10 +174,13 @@ app.get('/courses', function(req, res) {
 });
 app.post('/courses', function(req, res) {
 	console.log('new course', req.body);
-	// req.user.courses.push({date: req.body.date, time: req.body.time});
-	// userModel.update({_id: req.user.id}, {courses: req.user.courses}, function() {
-		// res.send(JSON.stringify(req.user.courses));
-	// });
+	let newCourse = new courseModel({
+		user: req.user._id,
+		date: new Date(`${req.body.date}T${req.body.time}Z`)
+	});
+	newCourse.save(function (err, newCourse) {
+		res.send(JSON.stringify(getCourses(req.user._id)));
+	});
 });
 app.delete('/courses', function(req, res) {
 	
