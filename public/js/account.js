@@ -69,20 +69,12 @@ courseDate.value = tomorrow;
 courseTime.value = '09:00';
 courseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	// let body = 'date=' + encodeURIComponent(courseDate.value) + '&time=' + encodeURIComponent(courseTime);
-	// let xhr = new XMLHttpRequest();
-	// xhr.addEventListener('loadend', function() {
-		// response = JSON.parse(this.responseText);
-		// createCoursesTable(response);
-	// });
-	// xhr.open('POST', '/courses');
-	// xhr.send(body);
-	
-	let course = new FormData(courseForm);
+	let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
-		console.log(this);
+		response = JSON.parse(this.responseText);
+		createCoursesTable(response);
 	});
 	xhr.open('POST', '/courses');
-	xhr.send(course);
+	xhr.send(body);
 });
