@@ -92,7 +92,7 @@ app.post('/register', function(req, res) {
 				if (err) return console.error(err);
 				let newCourse = new courseModel({
 					user: newUser._id,
-					date: new Date(`${req.body.r_date}T${req.body.r_time}:00Z`)
+					date: new Date(`${req.body.r_date}T${req.body.r_time}:00`)
 				});
 				newCourse.save(function (err, newCourse) {
 					res.redirect(303, '/account.html');
