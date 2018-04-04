@@ -14,26 +14,27 @@ xhr.addEventListener('loadend', function() {
 		
 		let courseDateTime = new Date(val.date);
 		courseDetails.classList.add('courseDetails');
-		let dateToShow = courseDateTime.getDate();
-		if (dateToShow < 10)
-			dateToShow = '0' + dateToShow;
+		let dayToShow = courseDateTime.getDate();
+		if (dayToShow < 10)
+			dayToShow = '0' + dayToShow;
 		let monthToShow = courseDateTime.getMonth();
 		if (monthToShow < 10)
 			monthToShow = '0' + monthToShow;
+		let yearToShow = courseDateTime.getFullYear();
 		let hourToShow = courseDateTime.getUTCHours();
 		if (hourToShow < 10)
 			hourToShow = '0' + hourToShow;
 		let minutesToShow = courseDateTime.getMinutes();
 		if (minutesToShow < 10)
 			minutesToShow = '0' + minutesToShow;
-		courseDetails.innerHTML = `${dateToShow}.${monthToShow} ${hourToShow}:${minutesToShow}`;
+		courseDetails.innerHTML = `${dateToShow}.${monthToShow}.$yearToShow ${hourToShow}:${minutesToShow}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');
 			cancelCourseBtn.setAttribute('type', 'button');
 			cancelCourseBtn.setAttribute('value', 'Cancel course');
 			cancelCourseBtn.classList.add('cancelCourse');
-			cancelCourseBtn.addEventListener('click', () => alert(i));
+			cancelCourseBtn.addEventListener('click', () => alert(val._id));
 			courseDiv.appendChild(cancelCourseBtn);
 			futureCoursesTable.appendChild(courseDiv);
 		} else {
