@@ -10,7 +10,7 @@ xhr.addEventListener('loadend', function() {
 	response.map(function(val, i) {
 		// let courseDateTime = new Date(val.date);
 		let courseDateTime = new Date(val.date);
-		let courseDateTime -= courseDateTime.getTimezoneOffset();
+		courseDateTime -= courseDateTime.getTimezoneOffset();
 		let courseDiv = document.createElement('div');
 		courseDiv.classList.add('clearfix');
 		let courseDetails = document.createElement('div');
