@@ -1,5 +1,5 @@
 function createCoursesTable (coursesArr) {
-	coursesArr.sort((x,y) => (x.date > y.date))
+	coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 			  .map(function(val) {
 		let courseDiv = document.createElement('div');
 		courseDiv.classList.add('clearfix');
@@ -10,7 +10,7 @@ function createCoursesTable (coursesArr) {
 		let dayToShow = courseDateTime.getDate();
 		if (dayToShow < 10)
 			dayToShow = '0' + dayToShow;
-		let monthToShow = courseDateTime.getMonth();
+		let monthToShow = courseDateTime.getMonth() + 1;
 		if (monthToShow < 10)
 			monthToShow = '0' + monthToShow;
 		let yearToShow = courseDateTime.getFullYear();
