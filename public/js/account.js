@@ -69,12 +69,20 @@ courseDate.value = tomorrow;
 courseTime.value = '09:00';
 courseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	var body = 'date=' + encodeURIComponent(courseDate.value) + '&time=' + encodeURIComponent(courseTime);
+	// let body = 'date=' + encodeURIComponent(courseDate.value) + '&time=' + encodeURIComponent(courseTime);
+	// let xhr = new XMLHttpRequest();
+	// xhr.addEventListener('loadend', function() {
+		// response = JSON.parse(this.responseText);
+		// createCoursesTable(response);
+	// });
+	// xhr.open('POST', '/courses');
+	// xhr.send(body);
+	
+	let course = new FormData(courseForm);
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
-		response = JSON.parse(this.responseText);
-		createCoursesTable(response);
+		console.log(this);
 	});
 	xhr.open('POST', '/courses');
-	xhr.send(body);
+	xhr.send(course);
 });
