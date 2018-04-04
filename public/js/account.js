@@ -20,7 +20,7 @@ xhr.addEventListener('loadend', function() {
 		let monthToShow = courseDateTime.getMonth();
 		if (monthToShow < 10)
 			monthToShow = '0' + monthToShow;
-		let hourToShow = courseDateTime.getHours();
+		let hourToShow = courseDateTime.getUTCHours();
 		if (hourToShow < 10)
 			hourToShow = '0' + hourToShow;
 		let minutesToShow = courseDateTime.getMinutes();
