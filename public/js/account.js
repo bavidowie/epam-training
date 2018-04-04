@@ -27,7 +27,7 @@ xhr.addEventListener('loadend', function() {
 		let minutesToShow = courseDateTime.getMinutes();
 		if (minutesToShow < 10)
 			minutesToShow = '0' + minutesToShow;
-		courseDetails.innerHTML = `${dayToShow}.${monthToShow}.$yearToShow ${hourToShow}:${minutesToShow}`;
+		courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
 		courseDiv.appendChild(courseDetails);
 		if (courseDateTime > Date.now()) {
 			let cancelCourseBtn = document.createElement('input');

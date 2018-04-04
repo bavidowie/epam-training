@@ -23,7 +23,6 @@ const userModel = mongoose.model('registered_user', userSchema);
 function getCourses(userID){
 	return new Promise(function(resolve, refuse) {
 		courseModel.find({user: userID}, function (err, courses) {
-			// console.log('DB', courses);
 			if (err) return console.error(err);
 			if (courses){
 				resolve(courses);
@@ -174,7 +173,7 @@ app.get('/courses', function(req, res) {
 	
 });
 app.post('/courses', function(req, res) {
-	console.log(req.body);
+	console.log('new course', req.body);
 	// req.user.courses.push({date: req.body.date, time: req.body.time});
 	// userModel.update({_id: req.user.id}, {courses: req.user.courses}, function() {
 		// res.send(JSON.stringify(req.user.courses));
