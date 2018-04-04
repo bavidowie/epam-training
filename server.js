@@ -173,10 +173,10 @@ app.get('/courses', function(req, res) {
 	
 });
 app.post('/courses', function(req, res) {
-	console.log('new course', req.body);
+	console.log('new course date', req.body.get('date'));
 	let newCourse = new courseModel({
 		user: req.user._id,
-		date: new Date(`${req.body.date}T${req.body.time}Z`)
+		date: new Date(`${req.body.get('date')}T${req.body.get('time')}Z`)
 	});
 	newCourse.save(function (err, newCourse) {
 		res.send(JSON.stringify(getCourses(req.user._id)));
