@@ -66,7 +66,7 @@ if(mm<10) {
     mm = '0'+mm
 } 
 tomorrow = yyyy + '-' + mm + '-' + dd;
-courseDate.min = tomorrow;
+//courseDate.min = tomorrow;
 courseDate.value = tomorrow;
 courseTime.value = '09:00';
 addCourse.addEventListener('click', function() {
