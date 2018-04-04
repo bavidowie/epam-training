@@ -173,7 +173,7 @@ app.get('/courses', function(req, res) {
 	
 });
 app.post('/courses', function(req, res) {
-	console.log('new course', req.body.date, req.body.time);
+	console.log('new course', req.body);
 	let newCourse = new courseModel({
 		user: req.user._id,
 		date: new Date(`${req.body.date}T${req.body.time}Z`)
