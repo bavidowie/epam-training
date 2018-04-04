@@ -49,9 +49,9 @@ xhr.addEventListener('loadend', function() {
 xhr.open('GET', '/courses');
 xhr.send();
 
-let CourseDate = document.getElementsByName('date')[0];
-let CourseTime = document.getElementsByName('time')[0];
-let CourseForm = document.getElementsByClassName('newCourse')[0];
+let courseDate = document.getElementsByName('date')[0];
+let courseTime = document.getElementsByName('time')[0];
+let courseForm = document.getElementsByClassName('newCourse')[0];
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 let dd = tomorrow.getDate();
@@ -64,17 +64,17 @@ if(mm<10) {
     mm = '0'+mm
 } 
 tomorrow = yyyy + '-' + mm + '-' + dd;
-CourseDate.min = tomorrow;
-CourseDate.value = tomorrow;
-CourseTime.value = '09:00';
-CourseForm.addEventListener('submit', function(evt) {
+courseDate.min = tomorrow;
+courseDate.value = tomorrow;
+courseTime.value = '09:00';
+courseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {
 		response = JSON.parse(this.responseText);
-		response.pop();
 		createCoursesTable(response);
 	});
+	let formData = new FormData(courseForm);
 	xhr.open('POST', '/courses');
-	xhr.send();
+	xhr.send(formData);
 });
