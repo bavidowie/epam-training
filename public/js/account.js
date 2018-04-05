@@ -27,7 +27,15 @@ function createCoursesTable (coursesArr) {
 			cancelCourseBtn.setAttribute('type', 'button');
 			cancelCourseBtn.setAttribute('value', 'Cancel course');
 			cancelCourseBtn.classList.add('cancelCourse');
-			cancelCourseBtn.addEventListener('click', () => alert(val._id));
+			cancelCourseBtn.addEventListener('click', function() {
+				let xhr = new XMLHttpRequest();
+				xhr.addEventListener('loadend', function() {
+					response = JSON.parse(this.responseText);
+					createCoursesTable(response);
+				});
+				xhr.open('DELETE', '/courses');
+				xhr.send(val._id);
+			});
 			courseDiv.appendChild(cancelCourseBtn);
 			futureCoursesTable.appendChild(courseDiv);
 		} else {
@@ -66,7 +74,7 @@ if(mm<10) {
     mm = '0'+mm
 } 
 tomorrow = yyyy + '-' + mm + '-' + dd;
-//courseDate.min = tomorrow;
+courseDate.min = tomorrow;
 courseDate.value = tomorrow;
 courseTime.value = '09:00';
 addCourse.addEventListener('click', function() {
