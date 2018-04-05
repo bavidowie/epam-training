@@ -34,7 +34,7 @@ function createCoursesTable (coursesArr) {
 					createCoursesTable(response);
 				});
 				xhr.open('DELETE', '/courses');
-				xhr.send('courseID' : val._id);
+				xhr.send({'courseID' : val._id});
 			});
 			courseDiv.appendChild(cancelCourseBtn);
 			futureCoursesTable.appendChild(courseDiv);
