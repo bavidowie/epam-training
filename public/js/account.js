@@ -1,4 +1,6 @@
 function createCoursesTable (coursesArr) {
+	futureCoursesTable.innerHTML = '';
+	pastCoursesTable.innerHTML = '';
 	if (Array.isArray(coursesArr)) {
 		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 				  .map(function(val) {
