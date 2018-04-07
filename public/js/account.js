@@ -1,5 +1,5 @@
 function createCoursesTable (coursesArr) {
-	if (coursesArr.isArray() == true) {
+	if (Array.isArray(coursesArr)) {
 		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 				  .map(function(val) {
 			let courseDiv = document.createElement('div');
