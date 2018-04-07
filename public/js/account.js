@@ -82,7 +82,7 @@ courseDate.min = tomorrow;
 courseDate.value = tomorrow;
 courseTime.value = '09:00';
 addCourse.addEventListener('click', function() {
-	// evt.preventDefault();
+	evt.preventDefault();
 	// let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
 	let body = new FormData(courseForm);
 	let xhr = new XMLHttpRequest();
