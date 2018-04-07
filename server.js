@@ -174,7 +174,7 @@ app.get('/courses', function(req, res) {
 	})
 	
 });
-app.post('/courses', upload.array(), function(req, res) {
+app.post('/courses', function(req, res) {
 	console.log('new course date', req.body.date);
 	let newCourse = new courseModel({
 		user: req.user._id,
