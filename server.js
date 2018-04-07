@@ -181,7 +181,13 @@ app.post('/courses', upload.array(), function(req, res) {
 		date: new Date(`${req.body.date}T${req.body.time}Z`)
 	});
 	newCourse.save(function (err, newCourse) {
-		res.send(JSON.stringify(getCourses(req.user._id)));
+		// res.send(JSON.stringify(getCourses(req.user._id)));
+		getCourses(req.user._id)
+		.then(function(courses){
+			res.send(JSON.stringify(courses));
+		}).catch(function(){
+			res.send(JSON.stringify([]));
+		});
 	});
 });
 app.delete('/courses', function(req, res) {
@@ -193,7 +199,7 @@ app.delete('/courses', function(req, res) {
 			res.send(JSON.stringify(courses));
 		}).catch(function(){
 			res.send(JSON.stringify([]));
-		})
+		});
 	});
 });
 
