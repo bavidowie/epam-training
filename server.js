@@ -5,7 +5,7 @@ const path = require('path');
 const multer  = require('multer');
 const upload = multer();
 const bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 // DB CONFIG
 const mongoose = require('mongoose');
