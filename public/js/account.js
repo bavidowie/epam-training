@@ -81,7 +81,7 @@ tomorrow = yyyy + '-' + mm + '-' + dd;
 courseDate.min = tomorrow;
 courseDate.value = tomorrow;
 courseTime.value = '09:00';
-courseForm.addEventListener('submit', function() {
+courseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
 	// let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
 	let body = new FormData(courseForm);
