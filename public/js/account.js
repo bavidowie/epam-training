@@ -1,47 +1,49 @@
 function createCoursesTable (coursesArr) {
-	coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
-			  .map(function(val) {
-		let courseDiv = document.createElement('div');
-		courseDiv.classList.add('clearfix');
-		let courseDetails = document.createElement('div');
-		
-		let courseDateTime = new Date(val.date);
-		courseDetails.classList.add('courseDetails');
-		let dayToShow = courseDateTime.getDate();
-		if (dayToShow < 10)
-			dayToShow = '0' + dayToShow;
-		let monthToShow = courseDateTime.getMonth() + 1;
-		if (monthToShow < 10)
-			monthToShow = '0' + monthToShow;
-		let yearToShow = courseDateTime.getFullYear();
-		let hourToShow = courseDateTime.getUTCHours();
-		if (hourToShow < 10)
-			hourToShow = '0' + hourToShow;
-		let minutesToShow = courseDateTime.getMinutes();
-		if (minutesToShow < 10)
-			minutesToShow = '0' + minutesToShow;
-		courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow} ${val._id}`;
-		courseDiv.appendChild(courseDetails);
-		if (courseDateTime > Date.now()) {
-			let cancelCourseBtn = document.createElement('input');
-			cancelCourseBtn.setAttribute('type', 'button');
-			cancelCourseBtn.setAttribute('value', 'Cancel course');
-			cancelCourseBtn.classList.add('cancelCourse');
-			cancelCourseBtn.addEventListener('click', function() {
-				let xhr = new XMLHttpRequest();
-				xhr.addEventListener('loadend', function() {
-					response = JSON.parse(this.responseText);
-					createCoursesTable(response);
+	if (coursesArr.isArray() == true) {
+		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
+				  .map(function(val) {
+			let courseDiv = document.createElement('div');
+			courseDiv.classList.add('clearfix');
+			let courseDetails = document.createElement('div');
+			
+			let courseDateTime = new Date(val.date);
+			courseDetails.classList.add('courseDetails');
+			let dayToShow = courseDateTime.getDate();
+			if (dayToShow < 10)
+				dayToShow = '0' + dayToShow;
+			let monthToShow = courseDateTime.getMonth() + 1;
+			if (monthToShow < 10)
+				monthToShow = '0' + monthToShow;
+			let yearToShow = courseDateTime.getFullYear();
+			let hourToShow = courseDateTime.getUTCHours();
+			if (hourToShow < 10)
+				hourToShow = '0' + hourToShow;
+			let minutesToShow = courseDateTime.getMinutes();
+			if (minutesToShow < 10)
+				minutesToShow = '0' + minutesToShow;
+			courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow} ${val._id}`;
+			courseDiv.appendChild(courseDetails);
+			if (courseDateTime > Date.now()) {
+				let cancelCourseBtn = document.createElement('input');
+				cancelCourseBtn.setAttribute('type', 'button');
+				cancelCourseBtn.setAttribute('value', 'Cancel course');
+				cancelCourseBtn.classList.add('cancelCourse');
+				cancelCourseBtn.addEventListener('click', function() {
+					let xhr = new XMLHttpRequest();
+					xhr.addEventListener('loadend', function() {
+						response = JSON.parse(this.responseText);
+						createCoursesTable(response);
+					});
+					xhr.open('DELETE', '/courses');
+					xhr.send(val._id);
 				});
-				xhr.open('DELETE', '/courses');
-				xhr.send(val._id);
-			});
-			courseDiv.appendChild(cancelCourseBtn);
-			futureCoursesTable.appendChild(courseDiv);
-		} else {
-			pastCoursesTable.appendChild(courseDiv);
-		}
-	});
+				courseDiv.appendChild(cancelCourseBtn);
+				futureCoursesTable.appendChild(courseDiv);
+			} else {
+				pastCoursesTable.appendChild(courseDiv);
+			}
+		});
+	}
 }
 
 let greetings = document.getElementsByClassName('greetings')[0];
