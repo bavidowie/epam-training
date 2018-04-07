@@ -185,10 +185,16 @@ app.post('/courses', upload.array(), function(req, res) {
 	});
 });
 app.delete('/courses', function(req, res) {
-	console.log(req.body);
+	// console.log(req.body);
 	// console.log(req.user);
 	courseModel.remove({'_id':req.body, 'user':req.user._id}, function() {
-		res.send(JSON.stringify(getCourses(req.user._id)));
+		getCourses(req.user._id)
+		.then(function(courses){
+			courses.push(req.user.login)
+			res.send(JSON.stringify(courses));
+		}).catch(function(){
+			res.send(JSON.stringify([req.user.login]));
+		})
 	});
 });
 
