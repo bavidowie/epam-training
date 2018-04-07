@@ -77,7 +77,7 @@ app.use('/account.html', function(req, res, next) {
 // APP ROUTES
 app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
-app.post('/register', function(req, res) {
+app.post('/register', upload.array(), function(req, res) {
 	let newUser = new userModel({
 		login: req.body.r_login,
 		email: req.body.r_email,
