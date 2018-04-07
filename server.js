@@ -190,10 +190,9 @@ app.delete('/courses', function(req, res) {
 	courseModel.remove({'_id':req.body, 'user':req.user._id}, function() {
 		getCourses(req.user._id)
 		.then(function(courses){
-			courses.push(req.user.login)
 			res.send(JSON.stringify(courses));
 		}).catch(function(){
-			res.send(JSON.stringify([req.user.login]));
+			res.send(JSON.stringify([]));
 		})
 	});
 });
