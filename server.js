@@ -4,8 +4,8 @@ const app = express();
 const path = require('path');
 const multer  = require('multer');
 const upload = multer();
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.urlencoded({ extended: false }));
 // DB CONFIG
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://openodeapp:qwerty123@ds259258.mlab.com:59258/training');
@@ -184,8 +184,8 @@ app.post('/courses', upload.array(), function(req, res) {
 });
 app.delete('/courses', upload.array(), function(req, res) {
 	console.log(req.body);
-	console.log(req.user);
-	courseModel.remove({'_id':req.body.courseID, 'user':req.user._id}, function() {
+	// console.log(req.user);
+	courseModel.remove({'_id':req.body, 'user':req.user._id}, function() {
 		res.send(JSON.stringify(getCourses(req.user._id)));
 	});
 });
