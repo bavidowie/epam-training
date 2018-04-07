@@ -182,7 +182,7 @@ app.post('/courses', upload.array(), function(req, res) {
 		res.send(JSON.stringify(getCourses(req.user._id)));
 	});
 });
-app.delete('/courses', function(req, res) {
+app.delete('/courses', upload.array(), function(req, res) {
 	console.log(req.body);
 	console.log(req.user);
 	courseModel.remove({'_id':req.body.courseID, 'user':req.user._id}, function() {
