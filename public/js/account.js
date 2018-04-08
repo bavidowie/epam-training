@@ -32,7 +32,7 @@ function createCourseDiv (course) {
 	
 	courseDetails.innerHTML = dateToStr(course.date);
 	courseDiv.appendChild(courseDetails);
-	if (course.date > Date.now()) {
+	if (Date.parse(course.date) > Date.now()) {
 		let cancelCourseBtn = document.createElement('input');
 		cancelCourseBtn.setAttribute('type', 'button');
 		cancelCourseBtn.setAttribute('value', 'Cancel course');
@@ -59,7 +59,7 @@ function createCoursesTable (coursesArr) {
 		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 				  .map(function(val) {
 			courseDiv = createCourseDiv(val);
-			if (val.date > Date.now()) {
+			if (Date.parse(val.date) > Date.now()) {
 				futureCoursesTitle.style.display = 'block';
 				futureCoursesTable.appendChild(courseDiv);
 			} else {
