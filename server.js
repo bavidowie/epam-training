@@ -176,23 +176,26 @@ app.get('/courses', function(req, res) {
 });
 app.post('/courses', upload.array(), function(req, res) {
 	console.log('new course date', req.body.date);
-	let newCourse = new courseModel({
-		user: req.user._id,
-		date: new Date(`${req.body.date}T${req.body.time}Z`)
-	});
-	newCourse.save(function (err, newCourse) {
-		// res.send(JSON.stringify(getCourses(req.user._id)));
-		getCourses(req.user._id)
-		.then(function(courses){
-			res.send(JSON.stringify(courses));
-		}).catch(function(){
-			res.send(JSON.stringify([]));
-		});
+	let courseDate = new Date(`${req.body.date}T${req.body.time}Z`);
+	courseModel.findOne({user: req.user._id, date: courseDate}, function (err, courses) {
+		if (err) return console.error(err);
+		if (!courses){
+			let newCourse = new courseModel({
+				user: req.user._id,
+				date: courseDate
+			});
+			newCourse.save(function (err, newCourse) {
+				getCourses(req.user._id)
+				.then(function(courses){
+					res.send(JSON.stringify(courses));
+				}).catch(function(){
+					res.send(JSON.stringify([]));
+				});
+			});
+		}
 	});
 });
 app.delete('/courses', function(req, res) {
-	// console.log(req.body);
-	// console.log(req.user);
 	courseModel.remove({'_id':req.body, 'user':req.user._id}, function() {
 		getCourses(req.user._id)
 		.then(function(courses){
@@ -203,7 +206,6 @@ app.delete('/courses', function(req, res) {
 	});
 });
 
-//APP START
 app.listen(process.env.PORT || 5000, (err) => {
 	if (!err) {
 		console.log('server is listening on port ', process.env.PORT || 5000);
