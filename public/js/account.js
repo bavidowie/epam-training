@@ -7,6 +7,49 @@ let courseDate = document.getElementsByName('date')[0];
 let courseTime = document.getElementsByName('time')[0];
 let courseForm = document.getElementsByClassName('newCourse')[0];
 
+function dateToStr (date) {
+	let courseDateTime = new Date(date);
+	let dayToShow = courseDateTime.getDate();
+	if (dayToShow < 10)
+		dayToShow = '0' + dayToShow;
+	let monthToShow = courseDateTime.getMonth() + 1;
+	if (monthToShow < 10)
+		monthToShow = '0' + monthToShow;
+	let yearToShow = courseDateTime.getFullYear();
+	let hourToShow = courseDateTime.getUTCHours();
+	if (hourToShow < 10)
+		hourToShow = '0' + hourToShow;
+	let minutesToShow = courseDateTime.getMinutes();
+	if (minutesToShow < 10)
+		minutesToShow = '0' + minutesToShow;
+	return `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
+}
+function createCourseDiv (course) {
+	let courseDiv = document.createElement('div');
+	courseDiv.classList.add('clearfix');
+	let courseDetails = document.createElement('div');
+	courseDetails.classList.add('courseDetails');
+	
+	courseDetails.innerHTML = dateToStr(course.date);
+	courseDiv.appendChild(courseDetails);
+	if (courseDateTime > Date.now()) {
+		let cancelCourseBtn = document.createElement('input');
+		cancelCourseBtn.setAttribute('type', 'button');
+		cancelCourseBtn.setAttribute('value', 'Cancel course');
+		cancelCourseBtn.classList.add('cancelCourse');
+		cancelCourseBtn.addEventListener('click', function() {
+			let xhr = new XMLHttpRequest();
+			xhr.addEventListener('loadend', function() {
+				response = JSON.parse(this.responseText);
+				createCoursesTable(response);
+			});
+			xhr.open('DELETE', '/courses');
+			xhr.send(course._id);
+		});
+		courseDiv.appendChild(cancelCourseBtn);
+	}
+	return courseDiv;
+}
 function createCoursesTable (coursesArr) {
 	futureCoursesTitle.style.display = 'none';
 	pastCoursesTitle.style.display = 'none';
@@ -15,43 +58,9 @@ function createCoursesTable (coursesArr) {
 	if (Array.isArray(coursesArr)) {
 		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 				  .map(function(val) {
-			let courseDiv = document.createElement('div');
-			courseDiv.classList.add('clearfix');
-			let courseDetails = document.createElement('div');
-			
-			let courseDateTime = new Date(val.date);
-			courseDetails.classList.add('courseDetails');
-			let dayToShow = courseDateTime.getDate();
-			if (dayToShow < 10)
-				dayToShow = '0' + dayToShow;
-			let monthToShow = courseDateTime.getMonth() + 1;
-			if (monthToShow < 10)
-				monthToShow = '0' + monthToShow;
-			let yearToShow = courseDateTime.getFullYear();
-			let hourToShow = courseDateTime.getUTCHours();
-			if (hourToShow < 10)
-				hourToShow = '0' + hourToShow;
-			let minutesToShow = courseDateTime.getMinutes();
-			if (minutesToShow < 10)
-				minutesToShow = '0' + minutesToShow;
-			courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
-			courseDiv.appendChild(courseDetails);
+			courseDiv = createCourseDiv(val);
 			if (courseDateTime > Date.now()) {
 				futureCoursesTitle.style.display = 'block';
-				let cancelCourseBtn = document.createElement('input');
-				cancelCourseBtn.setAttribute('type', 'button');
-				cancelCourseBtn.setAttribute('value', 'Cancel course');
-				cancelCourseBtn.classList.add('cancelCourse');
-				cancelCourseBtn.addEventListener('click', function() {
-					let xhr = new XMLHttpRequest();
-					xhr.addEventListener('loadend', function() {
-						response = JSON.parse(this.responseText);
-						createCoursesTable(response);
-					});
-					xhr.open('DELETE', '/courses');
-					xhr.send(val._id);
-				});
-				courseDiv.appendChild(cancelCourseBtn);
 				futureCoursesTable.appendChild(courseDiv);
 			} else {
 				pastCoursesTitle.style.display = 'block';
@@ -89,7 +98,6 @@ courseDate.value = tomorrow;
 courseTime.value = '09:00';
 courseForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
-	// let body = JSON.stringify({date: courseDate.value, time: courseTime.value});
 	let body = new FormData(courseForm);
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener('loadend', function() {

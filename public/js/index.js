@@ -68,30 +68,13 @@ RegisterDate.min = tomorrow;
 RegisterDate.value = tomorrow;
 RegisterTime.value = '09:00';
 
-RegisterLogin.addEventListener('blur', validateRegisterLogin);
-RegisterLogin.addEventListener('focus', function() {
-	clearInputError(RegisterLogin);
-});
-RegisterEmail.addEventListener('blur', validateRegisterEmail);
-RegisterEmail.addEventListener('focus', function() {
-	clearInputError(RegisterEmail);
-});
-RegisterPass.addEventListener('blur', validateRegisterPass);
-RegisterPass.addEventListener('focus', function() {
-	clearInputError(RegisterPass);
-});
-RegisterPassRe.addEventListener('blur', validateRegisterPassRe);
-RegisterPassRe.addEventListener('focus', function() {
-	clearInputError(RegisterPassRe);
-});
 
 RegisterForm.addEventListener('submit', function(evt) {
 	evt.preventDefault();
 	validateRegisterLogin()
-		.then(validateRegisterEmail)
-		.then(validateRegisterPass)
-		.then(validateRegisterPassRe)
-		.then(() => this.submit());
+	.then(validateRegisterEmail)
+	.then(validateRegisterPassRe)
+	.then(() => this.submit());
 });
 
 function validateRegisterLogin () {
@@ -126,11 +109,6 @@ function validateRegisterEmail () {
 		xhr.send(RegisterData);
 	});
 }
-function validateRegisterPass () {
-	return new Promise(function(resolve) {
-		resolve();
-	});
-}
 function validateRegisterPassRe () {
 	return new Promise(function(resolve) {
 		if (RegisterPass.value !== RegisterPassRe.value) {
@@ -138,12 +116,11 @@ function validateRegisterPassRe () {
 		} else {
 			resolve();
 		}
-	})
+	});
 }
 
-
 function displayInputError (InputField, ErrorText) {
-	clearInputError(RegisterLogin);
+	clearInputError(InputField);
 	let ErrorBlock = document.createElement('div');
 	ErrorBlock.classList.add('errormsg');
 	let ErrorTextNode = document.createTextNode(ErrorText);
@@ -156,3 +133,16 @@ function clearInputError (InputField) {
 		LastSibling.remove();
 	}
 }
+
+RegisterLogin.addEventListener('blur', validateRegisterLogin);
+RegisterLogin.addEventListener('focus', function() {
+	clearInputError(RegisterLogin);
+});
+RegisterEmail.addEventListener('blur', validateRegisterEmail);
+RegisterEmail.addEventListener('focus', function() {
+	clearInputError(RegisterEmail);
+});
+RegisterPassRe.addEventListener('blur', validateRegisterPassRe);
+RegisterPassRe.addEventListener('focus', function() {
+	clearInputError(RegisterPassRe);
+});
