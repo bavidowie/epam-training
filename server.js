@@ -177,43 +177,39 @@ app.get('/courses', function(req, res) {
 	}).catch(function(){
 		res.send(JSON.stringify([req.user.login]));
 	})
-	
 });
-app.post('/courses', upload.array(), function(req, res) {
-	let courseDate = new Date(`${req.body.date}T${req.body.time}Z`);
-	courseModel.findOne({user: req.user._id, date: courseDate}, function (err, found) {
-		if (err) return console.error(err);
-		if (!found){
-			let newCourse = new courseModel({
-				user: req.user._id,
-				date: courseDate
-			});
-			newCourse.save(function (err, newCourse) {
-				getCourses(req.user._id)
-				.then(function(courses){
-					res.send(JSON.stringify(courses));
-				}).catch(function(){
-					res.send(JSON.stringify([]));
-				});
-			});
-		} else {
-			getCourses(req.user._id)
-			.then(function(courses){
-				res.send(JSON.stringify(courses));
-			}).catch(function(){
-				res.send(JSON.stringify([]));
-			});
-		}
+function sendCoursesArr (userID, res) {
+	getCourses(userID)
+	.then(function(courses){
+		res.send(JSON.stringify(courses));
+	}).catch(function(){
+		res.send(JSON.stringify([]));
 	});
+}
+app.post('/courses', upload.array(), function(req, res) {
+	if (!isNaN(Date.parse(`${req.body.date}T${req.body.time}Z`))) {
+		let courseDate = new Date(`${req.body.date}T${req.body.time}Z`);
+		courseModel.findOne({user: req.user._id, date: courseDate}, function (err, found) {
+			if (err) return console.error(err);
+			if (!found){
+				let newCourse = new courseModel({
+					user: req.user._id,
+					date: courseDate
+				});
+				newCourse.save(function (err, newCourse) {
+					sendCoursesArr(req.user._id, res);
+				});
+			} else {
+				sendCoursesArr(req.user._id, res);
+			}
+		});
+	} else {
+		sendCoursesArr(req.user._id, res);
+	}
 });
 app.delete('/courses', function(req, res) {
 	courseModel.remove({'_id':req.body, 'user':req.user._id}, function() {
-		getCourses(req.user._id)
-		.then(function(courses){
-			res.send(JSON.stringify(courses));
-		}).catch(function(){
-			res.send(JSON.stringify([]));
-		});
+		sendCoursesArr(req.user._id, res);
 	});
 });
 
