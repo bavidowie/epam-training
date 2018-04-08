@@ -30,7 +30,8 @@ function createCourseDiv (course) {
 	let courseDetails = document.createElement('div');
 	courseDetails.classList.add('courseDetails');
 	
-	courseDetails.innerHTML = dateToStr(course.date);
+	let courseDateTime = dateToStr(course.date);
+	courseDetails.innerHTML = courseDateTime;
 	courseDiv.appendChild(courseDetails);
 	if (courseDateTime > Date.now()) {
 		let cancelCourseBtn = document.createElement('input');
