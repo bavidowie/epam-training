@@ -70,13 +70,13 @@ passport.use(new localStrategy(function(username, password, done) {
 	});
 }));
 // APP ROUTES
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('/account.html', function(req, res, next) {
+app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect('/');
 	}
 	next();
 });
+app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
 	let newUser = new userModel({
