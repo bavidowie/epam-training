@@ -1,5 +1,5 @@
 let greetings = document.getElementsByClassName('greetings')[0];
-let futureCoursesTitile = document.getElementsByClassName('futureCoursesTitile')[0];
+let futureCoursesTitile = document.getElementsByClassName('futureCoursesTitle')[0];
 let pastCoursesTitle = document.getElementsByClassName('pastCoursesTitle')[0];
 let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
 let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
