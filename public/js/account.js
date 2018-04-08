@@ -60,7 +60,7 @@ function createCoursesTable (coursesArr) {
 		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 				  .map(function(val) {
 			courseDiv = createCourseDiv(val);
-			if (courseDateTime > Date.now()) {
+			if (dateToStr(val.date) > Date.now()) {
 				futureCoursesTitle.style.display = 'block';
 				futureCoursesTable.appendChild(courseDiv);
 			} else {
