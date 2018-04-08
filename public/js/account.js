@@ -30,10 +30,9 @@ function createCourseDiv (course) {
 	let courseDetails = document.createElement('div');
 	courseDetails.classList.add('courseDetails');
 	
-	let courseDateTime = dateToStr(course.date);
-	courseDetails.innerHTML = courseDateTime;
+	courseDetails.innerHTML = dateToStr(course.date);
 	courseDiv.appendChild(courseDetails);
-	if (courseDateTime > Date.now()) {
+	if (course.date > Date.now()) {
 		let cancelCourseBtn = document.createElement('input');
 		cancelCourseBtn.setAttribute('type', 'button');
 		cancelCourseBtn.setAttribute('value', 'Cancel course');
@@ -60,7 +59,7 @@ function createCoursesTable (coursesArr) {
 		coursesArr.sort((x,y) => (Date.parse(x.date) > Date.parse(y.date)))
 				  .map(function(val) {
 			courseDiv = createCourseDiv(val);
-			if (dateToStr(val.date) > Date.now()) {
+			if (val.date > Date.now()) {
 				futureCoursesTitle.style.display = 'block';
 				futureCoursesTable.appendChild(courseDiv);
 			} else {
