@@ -23,7 +23,7 @@ function createCoursesTable (coursesArr) {
 			let minutesToShow = courseDateTime.getMinutes();
 			if (minutesToShow < 10)
 				minutesToShow = '0' + minutesToShow;
-			courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow} ${val._id}`;
+			courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
 			courseDiv.appendChild(courseDetails);
 			if (courseDateTime > Date.now()) {
 				let cancelCourseBtn = document.createElement('input');
