@@ -91,14 +91,18 @@ app.post('/register', function(req, res) {
 			if (err) return console.error(err);
 			req.login(newUser, function(err) {
 				if (err) return console.error(err);
-				let newCourse = new courseModel({
-					user: newUser._id,
-					date: new Date(`${req.body.r_date}T${req.body.r_time}Z`)
-				});
-				newCourse.save(function (err, newCourse) {
-					if (err) return console.error(err);
+				if (Date.parse(`${req.body.r_date}T${req.body.r_time}Z`) !== NaN) {
+					let newCourse = new courseModel({
+						user: newUser._id,
+						date: new Date(`${req.body.r_date}T${req.body.r_time}Z`)
+					});
+					newCourse.save(function (err, newCourse) {
+						if (err) return console.error(err);
+						res.redirect(303, '/account.html');
+					});
+				} else {
 					res.redirect(303, '/account.html');
-				});
+				}
 			});
 		});
 	}).catch(function(error_msg) {
