@@ -175,11 +175,10 @@ app.get('/courses', function(req, res) {
 	
 });
 app.post('/courses', upload.array(), function(req, res) {
-	console.log('new course date', req.body.date);
 	let courseDate = new Date(`${req.body.date}T${req.body.time}Z`);
-	courseModel.findOne({user: req.user._id, date: courseDate}, function (err, courses) {
+	courseModel.findOne({user: req.user._id, date: courseDate}, function (err, found) {
 		if (err) return console.error(err);
-		if (!courses){
+		if (!found){
 			let newCourse = new courseModel({
 				user: req.user._id,
 				date: courseDate
@@ -191,6 +190,13 @@ app.post('/courses', upload.array(), function(req, res) {
 				}).catch(function(){
 					res.send(JSON.stringify([]));
 				});
+			});
+		} else {
+			getCourses(req.user._id)
+			.then(function(courses){
+				res.send(JSON.stringify(courses));
+			}).catch(function(){
+				res.send(JSON.stringify([]));
 			});
 		}
 	});
