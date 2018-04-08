@@ -71,7 +71,7 @@ passport.use(new localStrategy(function(username, password, done) {
 }));
 // APP ROUTES
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/account.html', function(req, res, next) {
+app.get('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect('/');
 	}
