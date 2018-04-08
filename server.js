@@ -91,6 +91,7 @@ app.post('/register', function(req, res) {
 			if (err) return console.error(err);
 			req.login(newUser, function(err) {
 				if (err) return console.error(err);
+				console.log(Date.parse(`${req.body.r_date}T${req.body.r_time}Z`));
 				if (Date.parse(`${req.body.r_date}T${req.body.r_time}Z`) !== NaN) {
 					let newCourse = new courseModel({
 						user: newUser._id,
