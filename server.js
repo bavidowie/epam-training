@@ -73,8 +73,9 @@ passport.use(new localStrategy(function(username, password, done) {
 app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect('/');
+	} else {
+		next();
 	}
-	next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
