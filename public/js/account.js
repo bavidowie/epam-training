@@ -37,7 +37,7 @@ function createCoursesTable (coursesArr) {
 			courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
 			courseDiv.appendChild(courseDetails);
 			if (courseDateTime > Date.now()) {
-				futureCoursesTitile.style.display = 'block';
+				futureCoursesTitle.style.display = 'block';
 				let cancelCourseBtn = document.createElement('input');
 				cancelCourseBtn.setAttribute('type', 'button');
 				cancelCourseBtn.setAttribute('value', 'Cancel course');
@@ -54,7 +54,7 @@ function createCoursesTable (coursesArr) {
 				courseDiv.appendChild(cancelCourseBtn);
 				futureCoursesTable.appendChild(courseDiv);
 			} else {
-				pastCoursesTitile.style.display = 'block';
+				pastCoursesTitle.style.display = 'block';
 				pastCoursesTable.appendChild(courseDiv);
 			}
 		});
