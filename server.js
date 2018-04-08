@@ -1,4 +1,3 @@
-// APP CONFIG
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -21,7 +20,7 @@ const userSchema = mongoose.Schema({
 	pass: String
 });
 const userModel = mongoose.model('registered_user', userSchema);
-function getCourses(userID){
+function getCourses (userID) {
 	return new Promise(function(resolve, refuse) {
 		courseModel.find({user: userID}, function (err, courses) {
 			if (err) return console.error(err);
@@ -59,26 +58,27 @@ const localStrategy = require('passport-local').Strategy;
 passport.use(new localStrategy(function(username, password, done) {
 	userModel.findOne({ login: username }, function(err, user) {
 		if (err) { return done(err); }
-		if (!user) {
-			return done(null, false, { message: 'Incorrect username.' });
-		}
-		if (!bcrypt.compareSync(password, user.pass)) {
-			return done(null, false, { message: 'Incorrect password.' });
-		}
+		if (!(user && bcrypt.compareSync(password, user.pass)))
+			return done(null, false);
 		return done(null, user);
+		// if (!user) {
+			// return done(null, false, { message: 'Incorrect username.' });
+		// }
+		// if (!bcrypt.compareSync(password, user.pass)) {
+			// return done(null, false, { message: 'Incorrect password.' });
+		// }
 	});
 }));
+// APP ROUTES
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/account.html', function(req, res, next) {
 	if (!req.user) {
 		res.redirect('/');
 	}
 	next();
 });
-// APP ROUTES
-app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signin', passport.authenticate('local', {successRedirect: '/account.html', failureRedirect: '/'}));
 app.post('/register', function(req, res) {
-	console.log(req.body);
 	let newUser = new userModel({
 		login: req.body.r_login,
 		email: req.body.r_email,
@@ -96,6 +96,7 @@ app.post('/register', function(req, res) {
 					date: new Date(`${req.body.r_date}T${req.body.r_time}Z`)
 				});
 				newCourse.save(function (err, newCourse) {
+					if (err) return console.error(err);
 					res.redirect(303, '/account.html');
 				});
 			});
@@ -167,7 +168,7 @@ app.post('/emailcheck', upload.array(), function(req, res) {
 app.get('/courses', function(req, res) {
 	getCourses(req.user._id)
 	.then(function(courses){
-		courses.push(req.user.login)
+		courses.push(req.user.login);	// for greeting
 		res.send(JSON.stringify(courses));
 	}).catch(function(){
 		res.send(JSON.stringify([req.user.login]));
