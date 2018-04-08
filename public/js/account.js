@@ -1,5 +1,5 @@
 let greetings = document.getElementsByClassName('greetings')[0];
-let futureCoursesTitile = document.getElementsByClassName('futureCoursesTitle')[0];
+let futureCoursesTitle = document.getElementsByClassName('futureCoursesTitle')[0];
 let pastCoursesTitle = document.getElementsByClassName('pastCoursesTitle')[0];
 let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
 let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
@@ -8,8 +8,8 @@ let courseTime = document.getElementsByName('time')[0];
 let courseForm = document.getElementsByClassName('newCourse')[0];
 
 function createCoursesTable (coursesArr) {
-	futureCoursesTitile.style.display = 'none';
-	pastCoursesTitile.style.display = 'none';
+	futureCoursesTitle.style.display = 'none';
+	pastCoursesTitle.style.display = 'none';
 	futureCoursesTable.innerHTML = '';
 	pastCoursesTable.innerHTML = '';
 	if (Array.isArray(coursesArr)) {
