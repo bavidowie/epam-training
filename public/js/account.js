@@ -1,4 +1,15 @@
+let greetings = document.getElementsByClassName('greetings')[0];
+let futureCoursesTitile = document.getElementsByClassName('futureCoursesTitile')[0];
+let pastCoursesTitle = document.getElementsByClassName('pastCoursesTitle')[0];
+let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
+let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
+let courseDate = document.getElementsByName('date')[0];
+let courseTime = document.getElementsByName('time')[0];
+let courseForm = document.getElementsByClassName('newCourse')[0];
+
 function createCoursesTable (coursesArr) {
+	futureCoursesTitile.style.display = 'none';
+	pastCoursesTitile.style.display = 'none';
 	futureCoursesTable.innerHTML = '';
 	pastCoursesTable.innerHTML = '';
 	if (Array.isArray(coursesArr)) {
@@ -26,6 +37,7 @@ function createCoursesTable (coursesArr) {
 			courseDetails.innerHTML = `${dayToShow}.${monthToShow}.${yearToShow} ${hourToShow}:${minutesToShow}`;
 			courseDiv.appendChild(courseDetails);
 			if (courseDateTime > Date.now()) {
+				futureCoursesTitile.style.display = 'block';
 				let cancelCourseBtn = document.createElement('input');
 				cancelCourseBtn.setAttribute('type', 'button');
 				cancelCourseBtn.setAttribute('value', 'Cancel course');
@@ -42,15 +54,13 @@ function createCoursesTable (coursesArr) {
 				courseDiv.appendChild(cancelCourseBtn);
 				futureCoursesTable.appendChild(courseDiv);
 			} else {
+				pastCoursesTitile.style.display = 'block';
 				pastCoursesTable.appendChild(courseDiv);
 			}
 		});
 	}
 }
 
-let greetings = document.getElementsByClassName('greetings')[0];
-let futureCoursesTable = document.getElementsByClassName('futureCourses')[0];
-let pastCoursesTable = document.getElementsByClassName('pastCourses')[0];
 
 let xhr = new XMLHttpRequest();
 xhr.addEventListener('loadend', function() {
@@ -62,10 +72,6 @@ xhr.addEventListener('loadend', function() {
 xhr.open('GET', '/courses');
 xhr.send();
 
-let courseDate = document.getElementsByName('date')[0];
-let courseTime = document.getElementsByName('time')[0];
-// let addCourse = document.getElementsByName('addCourse')[0];
-let courseForm = document.getElementsByClassName('newCourse')[0];
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 let dd = tomorrow.getDate();
